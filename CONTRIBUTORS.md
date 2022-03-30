@@ -7,6 +7,7 @@ Add yourself as a contributor to this project as a Markdown link that links your
 ## Cohort Participants
 
 - [Simon Kaine](https://github.com/simonkaine) :crystal_ball:
+- [Nikki Graybeal](https://github.com/nikkigraybeal) :space_invader:
 
 ## Mentors
 
