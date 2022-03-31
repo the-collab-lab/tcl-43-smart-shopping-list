@@ -12,6 +12,7 @@ Add yourself as a contributor to this project as a Markdown link that links your
 
 ## Mentors
 
-Emily Kondziola
+- Emily Kondziola
+- [Aditya Dalal](https://github.com/adidalal) :books:
 
 ## Code of Conduct Contacts
