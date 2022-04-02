@@ -9,6 +9,7 @@ Add yourself as a contributor to this project as a Markdown link that links your
 - [Simon Kaine](https://github.com/simonkaine) :crystal_ball:
 - [Nikki Graybeal](https://github.com/nikkigraybeal) :space_invader:
 - [Rachael Thomas](https://github.com/rachael-t) :dizzy:
+- [Lena A. Al.](https://github.com/lena-A-Al) 💻:
 
 ## Mentors
 
