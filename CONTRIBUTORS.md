@@ -15,5 +15,8 @@ Add yourself as a contributor to this project as a Markdown link that links your
 
 - Emily Kondziola
 - [Aditya Dalal](https://github.com/adidalal) :books:
+- [Skyler Shaw](https://www.linkedin.com/in/skylershaw/)
 
 ## Code of Conduct Contacts
+
+- [Juliana Gomez](https://the-collab-lab.slack.com/archives/C037EMXQJR2/p1648562885506529)
