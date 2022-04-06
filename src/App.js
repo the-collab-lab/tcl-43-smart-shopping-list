@@ -1,24 +1,27 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter, Routes, Link, Route } from 'react-router-dom';
+import List from './components/List.js';
+import AddItem from './components/AddItem.js';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          hello world
-        </a>
-      </header>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/additem" element={<AddItem />} />
+          <Route path="/list" element={<List />} />
+        </Routes>
+
+        <div>
+          <button>
+            <Link to="/list">Shopping List</Link>
+          </button>
+          <button>
+            <Link to="/additem">Add Item</Link>
+          </button>
+        </div>
+      </BrowserRouter>
     </div>
   );
 }
