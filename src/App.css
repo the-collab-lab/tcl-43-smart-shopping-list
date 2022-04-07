@@ -1,54 +1,20 @@
 .App {
   text-align: center;
 }
-
-.App-logo {
-  height: 40vmin;
+/*Link returns a standard <a> tag! so use <a> for styling*/
+a {
+  color: black;
+  font-size: 15px;
+  cursor: pointer;
+  margin: 0 15px;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #09d3ac;
-}
-
-Link {
-  text-decoration: none;
-  background-color: red;
-}
-
-.btn-div {
+.link-div {
   position: fixed;
   bottom: 25px;
   width: 100%;
   padding: 8px;
 }
-button {
-  margin: 0 15px;
-  height: 50px;
-  width: 130px;
-  border-radius: 15px;
-}
-
-.title{
+.title {
   font-size: 23px;
   font-weight: bold;
-}
-
-.btnClass {
-  background-color: rgb(205, 188, 188);
-}
-.btnClass.clicked{
-  background-color: rgb(208, 236, 208);
-  font-weight: bold;
-  
 }
