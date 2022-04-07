@@ -6,7 +6,6 @@ import AddItem from './components/AddItem.js';
 
 function App() {
   const [btnClass, setBtnClass] = useState(false);
-
   return (
     <div className="App">
       <BrowserRouter>
