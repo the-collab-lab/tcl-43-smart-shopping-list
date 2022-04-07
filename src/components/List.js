@@ -1,5 +1,5 @@
 import React from 'react';
 
 export default function List() {
-  return <div>Shopping List</div>;
+  return <div className="title">Shopping List</div>;
 }

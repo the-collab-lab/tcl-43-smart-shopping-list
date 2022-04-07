@@ -20,3 +20,35 @@
 .App-link {
   color: #09d3ac;
 }
+
+Link {
+  text-decoration: none;
+  background-color: red;
+}
+
+.btn-div {
+  position: fixed;
+  bottom: 25px;
+  width: 100%;
+  padding: 8px;
+}
+button {
+  margin: 0 15px;
+  height: 50px;
+  width: 130px;
+  border-radius: 15px;
+}
+
+.title{
+  font-size: 23px;
+  font-weight: bold;
+}
+
+.btnClass {
+  background-color: rgb(205, 188, 188);
+}
+.btnClass.clicked{
+  background-color: rgb(208, 236, 208);
+  font-weight: bold;
+  
+}
