@@ -5,7 +5,7 @@ export default function AddItem() {
   const submitHandler = async () => {
     try {
       const docRef = await addDoc(collection(db, 'Shopping-List'), {
-        item: 'apple',
+        item: 'banana',
       });
       console.log(docRef.id);
     } catch (e) {

@@ -10,15 +10,11 @@ export default function List() {
     const unsubscribe = onSnapshot(
       collection(db, 'Shopping-List'),
       (snapshot) => {
+        let snapshotDocs = [];
         // Firestore requires that you loop through the snapshot to access the docs,
         // instead of just setting the snapshot as the value of the state
-        const snapshotDocs = [];
         snapshot.forEach((doc) => snapshotDocs.push(doc));
         setDocs(snapshotDocs);
-
-        // NOTE: (04-05-2022) Able to locate ID but unable to find values for item ids
-        // Bring up in office hours..
-        console.log(snapshotDocs.map((docItem) => docItem.id));
       },
     );
     return () => {
@@ -29,7 +25,11 @@ export default function List() {
 
   return (
     <>
-      <div>Hello world</div>
+      <div>
+        {docs.map((item, index) => {
+          return <p key={index}>{item.data().item}</p>;
+        })}
+      </div>
     </>
   );
 }
