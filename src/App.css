@@ -1,7 +1,7 @@
 .App {
   text-align: center;
 }
-/*Link returns a standard <a> tag! so use <a> for styling*/
+/*NavLink returns a standard <a> tag! so use <a> for styling*/
 a {
   color: black;
   font-size: 15px;
