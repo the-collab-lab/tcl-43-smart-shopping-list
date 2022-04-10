@@ -1,24 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter, Routes, NavLink, Route } from 'react-router-dom';
+import List from './components/List.js';
+import AddItem from './components/AddItem.js';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<List />} />
+          <Route path="/additem" element={<AddItem />} />
+        </Routes>
+
+        <div className="link-div">
+          <NavLink
+            to="/"
+            style={({ isActive }) =>
+              isActive ? { fontWeight: 'bold' } : { fontWeight: 'normal' }
+            }
+          >
+            Shopping List
+          </NavLink>
+          <NavLink
+            to="additem"
+            style={({ isActive }) =>
+              isActive ? { fontWeight: 'bold' } : { fontWeight: 'normal' }
+            }
+          >
+            Add Item
+          </NavLink>
+        </div>
+      </BrowserRouter>
     </div>
   );
 }

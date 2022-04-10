@@ -1,22 +1,20 @@
 .App {
   text-align: center;
 }
-
-.App-logo {
-  height: 40vmin;
+/*NavLink returns a standard <a> tag! so use <a> for styling*/
+a {
+  color: black;
+  font-size: 15px;
+  cursor: pointer;
+  margin: 0 15px;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.link-div {
+  position: fixed;
+  bottom: 25px;
+  width: 100%;
+  padding: 8px;
 }
-
-.App-link {
-  color: #09d3ac;
+.title {
+  font-size: 23px;
+  font-weight: bold;
 }
