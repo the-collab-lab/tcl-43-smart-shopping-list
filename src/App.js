@@ -12,7 +12,7 @@ function App() {
           <Route path="/additem" element={<AddItem />} />
         </Routes>
 
-        <div className="link-div">
+        <nav className="link-div">
           <NavLink
             to="/"
             style={({ isActive }) =>
@@ -29,7 +29,7 @@ function App() {
           >
             Add Item
           </NavLink>
-        </div>
+        </nav>
       </BrowserRouter>
     </div>
   );
