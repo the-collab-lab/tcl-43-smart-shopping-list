@@ -5,7 +5,7 @@ export default function AddItem() {
   const submitHandler = async () => {
     try {
       const docRef = await addDoc(collection(db, 'Shopping-List'), {
-        item: 'banana',
+        item: 'Avocado',
       });
       console.log(docRef.id);
     } catch (e) {
@@ -15,6 +15,7 @@ export default function AddItem() {
 
   return (
     <>
+      <h1>Add Item</h1>
       <div>
         <button onClick={submitHandler}>Click to submit new item</button>
       </div>

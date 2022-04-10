@@ -25,6 +25,7 @@ export default function List() {
 
   return (
     <>
+      <h1>Shopping List</h1>
       <div>
         {docs.map((item, index) => {
           return <p key={index}>{item.data().item}</p>;
