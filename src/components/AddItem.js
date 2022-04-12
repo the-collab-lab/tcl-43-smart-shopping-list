@@ -18,18 +18,24 @@ export default function AddItem() {
       <h1>Add Item</h1>
       <form onSubmit={submitHandler}>
         <label htmlFor="item-name">Item name:</label>
-        <input required id="item-name" />
+        <input required id="item-name" type="text" name="item-name" />
         <fieldset>
           <legend>How soon will you buy this again?</legend>
 
-          <input type="radio" id="soon" name="frequency"></input>
           <label htmlFor="soon">Soon</label>
+          <input
+            defaultChecked
+            id="soon"
+            type="radio"
+            name="frequency"
+            // RT: I think we will want to add a value and have that equal to the numerical value associated with each frequency, i.e. soon will have a value of 7. This will apply to each input element.
+          />
 
-          <input type="radio" id="kind-of-soon" name="frequency"></input>
           <label htmlFor="kind-of-soon">Kind of Soon</label>
+          <input id="kind-of-soon" type="radio" name="frequency" />
 
-          <input type="radio" id="not-soon" name="frequency"></input>
           <label htmlFor="not-soon">Not Soon</label>
+          <input id="not-soon" type="radio" name="frequency" />
         </fieldset>
         <button type="submit">Add Item</button>
       </form>
