@@ -1,19 +1,19 @@
 import { collection, addDoc } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 
-export default function AddItem(newUserToken) {
+export default function AddItem(userToken) {
   // Accept a prop called newToken that should be a string
   // Utilize AddItem component to create new collection in FireStore db for that specific user.
   // user token should populate in FireBase database with new collection
-  console.log('AddItem token received =>', newUserToken);
-  console.log('typeof:', typeof newUserToken);
+  console.log('AddItem token received =>', userToken);
+  console.log('typeof:', typeof userToken);
 
   // This is the last task ==>
   // It worked before with "Shopping-List" as argument but not working anymore..
   // Unable to create new collection in database with newToken as is >>>
   const submitHandler = async () => {
     try {
-      const docRef = await addDoc(collection(db, newUserToken), {
+      const docRef = await addDoc(collection(db, userToken), {
         item: 'test value',
       });
       console.log(docRef.id);
