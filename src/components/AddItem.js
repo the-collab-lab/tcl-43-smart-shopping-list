@@ -1,6 +1,10 @@
 import { collection, addDoc } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { useState } from 'react';
+// When merging to main with Issue #3, we can remove setUser below
+import { setUser, getUser } from '../storage-utils/storage-utils';
+// When merging to main with Issue #3, we can remove the import below
+import { getToken } from '@the-collab-lab/shopping-list-utils';
 
 export default function AddItem() {
   const [itemName, setItemName] = useState('');
@@ -9,8 +13,15 @@ export default function AddItem() {
   const submitHandler = async (e) => {
     e.preventDefault();
 
+    // Lines 17 - 18 are for testing purposes. Once we merge into main with Issue #3, we can remove these two lines
+    const newUserToken = getToken();
+    setUser(newUserToken);
+    // This will remain:
+    const userToken = await getUser();
+    console.log('GET USER TOKEN FROM LS: ', userToken);
+
     try {
-      const docRef = await addDoc(collection(db, 'Shopping-List'), {
+      const docRef = await addDoc(collection(db, userToken), {
         item: itemName,
         frequency: frequency,
         lastPurchaseDate: null,
