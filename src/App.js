@@ -14,11 +14,10 @@ function App() {
           <Route path="/list" element={<List />} />
           <Route path="/addItem" element={<AddItem />} />
         </Routes>
-      </BrowserRouter>
 
-      {/* <nav className="link-div">
+        <nav className="link-div">
           <NavLink
-            to="/"
+            to="/list"
             style={({ isActive }) =>
               isActive ? { fontWeight: 'bold' } : { fontWeight: 'normal' }
             }
@@ -33,7 +32,8 @@ function App() {
           >
             Add Item
           </NavLink>
-        </nav> */}
+        </nav>
+      </BrowserRouter>
     </div>
   );
 }

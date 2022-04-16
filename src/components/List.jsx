@@ -5,11 +5,9 @@ import { getUser } from '../storage-utils/storage-utils';
 
 export default function List() {
   const [docs, setDocs] = useState([]);
+  const [userToken] = useState(getUser());
 
   useEffect(() => {
-    let userToken = getUser();
-    console.log('Get new USER LIST: ', userToken);
-
     const unsubscribe = onSnapshot(collection(db, userToken), (snapshot) => {
       let snapshotDocs = [];
       snapshot.forEach((doc) => snapshotDocs.push(doc));
@@ -18,7 +16,7 @@ export default function List() {
     return () => {
       unsubscribe();
     };
-  }, []);
+  }, [userToken]);
 
   return (
     <>
