@@ -17,13 +17,14 @@ function App() {
 
         <nav className="link-div">
           <NavLink
-            to="/list"
+            to="list"
             style={({ isActive }) =>
               isActive ? { fontWeight: 'bold' } : { fontWeight: 'normal' }
             }
           >
             Shopping List
           </NavLink>
+
           <NavLink
             to="addItem"
             style={({ isActive }) =>
