@@ -2,12 +2,14 @@ import { db } from '../lib/firebase';
 import { collection, onSnapshot } from '@firebase/firestore';
 import { useState, useEffect } from 'react';
 import { setUser } from '../storage-utils/storage-utils';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export default function JoinExistingList() {
   const [userToken, setUserToken] = useState('');
   const [docs, setDocs] = useState([]);
+  const navigate = useNavigate();
 
+  // get the collection when userToken changes
   useEffect(() => {
     if (userToken !== '') {
       const unsubscribe = onSnapshot(collection(db, userToken), (snapshot) => {
@@ -21,30 +23,20 @@ export default function JoinExistingList() {
     }
   }, [userToken]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // console.log('User Token', userToken);
-    setUser(userToken);
-    // console.log(docs.length)
-
-    if (docs.length === 0) {
-      alert('THIS LIST DOES NOT EXIST!');
-    } else {
-      alert('this list DOES exist');
-      // needs to navigate back to existing list
-      return <Navigate to="/list" />;
-    }
-    // save to local storage (does local storage need to be emptied first?)
-    // get input token and set to setUser
-    // check if collection exists - if does - then navigate to list and display list
-    // else - display error message e.g: "That list does not exist, etc... "
-  };
-
   return (
     <div>
       <p>Join an existing list by entering a three word token below.</p>
 
-      <form onSubmit={handleSubmit}>
+      <form
+        onSubmit={() => {
+          docs.length > 0
+            ? navigate('list')
+            : alert(
+                'That list does not exist. Please try again or create a new list.',
+              );
+          setUser(userToken);
+        }}
+      >
         <label htmlFor="user token">Share Token</label>
         <input
           type="text"
