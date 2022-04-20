@@ -1,3 +1,4 @@
+import JoinExistingList from './JoinExistingList.jsx';
 import NewListButton from './newListButton.jsx';
 
 export default function Home() {
@@ -9,6 +10,7 @@ export default function Home() {
 
       <section>
         <NewListButton />
+        <JoinExistingList />
       </section>
     </>
   );
