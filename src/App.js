@@ -1,28 +1,32 @@
+import React from 'react';
 import './App.css';
 import { BrowserRouter, Routes, NavLink, Route } from 'react-router-dom';
-import List from './components/List.js';
-import AddItem from './components/AddItem.js';
+import Home from './components/Home.jsx';
+import List from './components/List.jsx';
+import AddItem from './components/AddItem.jsx';
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<List />} />
-          <Route path="/additem" element={<AddItem />} />
+          <Route exact path="/" element={<Home />} />
+          <Route path="/list" element={<List />} />
+          <Route path="/addItem" element={<AddItem />} />
         </Routes>
 
         <nav className="link-div">
           <NavLink
-            to="/"
+            to="list"
             style={({ isActive }) =>
               isActive ? { fontWeight: 'bold' } : { fontWeight: 'normal' }
             }
           >
             Shopping List
           </NavLink>
+
           <NavLink
-            to="additem"
+            to="addItem"
             style={({ isActive }) =>
               isActive ? { fontWeight: 'bold' } : { fontWeight: 'normal' }
             }
