@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { collection, addDoc } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { getUser } from '../storage-utils/storage-utils';
+import { NavLink } from 'react-router-dom';
 
 export default function AddItem() {
   const [userToken] = useState(getUser());
@@ -69,6 +70,26 @@ export default function AddItem() {
         </fieldset>
         <button type="submit">Add Item</button>
       </form>
+
+      <nav className="link-div">
+        <NavLink
+          to="/list"
+          style={({ isActive }) =>
+            isActive ? { fontWeight: 'bold' } : { fontWeight: 'normal' }
+          }
+        >
+          Shopping List
+        </NavLink>
+
+        <NavLink
+          to="/addItem"
+          style={({ isActive }) =>
+            isActive ? { fontWeight: 'bold' } : { fontWeight: 'normal' }
+          }
+        >
+          Add Item
+        </NavLink>
+      </nav>
     </>
   );
 }

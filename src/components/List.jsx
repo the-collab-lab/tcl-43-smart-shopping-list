@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { collection, onSnapshot } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { getUser } from '../storage-utils/storage-utils';
+import { NavLink } from 'react-router-dom';
 
 export default function List() {
   const [docs, setDocs] = useState([]);
@@ -26,6 +27,26 @@ export default function List() {
           return <p key={index}>{item.data().item}</p>;
         })}
       </div>
+
+      <nav className="link-div">
+        <NavLink
+          to="/list"
+          style={({ isActive }) =>
+            isActive ? { fontWeight: 'bold' } : { fontWeight: 'normal' }
+          }
+        >
+          Shopping List
+        </NavLink>
+
+        <NavLink
+          to="/addItem"
+          style={({ isActive }) =>
+            isActive ? { fontWeight: 'bold' } : { fontWeight: 'normal' }
+          }
+        >
+          Add Item
+        </NavLink>
+      </nav>
     </>
   );
 }
