@@ -29,12 +29,14 @@ export default function JoinExistingList() {
 
       <form
         onSubmit={() => {
-          docs.length > 0
-            ? navigate('list')
-            : alert(
-                'That list does not exist. Please try again or create a new list.',
-              );
-          setUser(userToken);
+          if (docs.length > 0) {
+            setUser(userToken);
+            navigate('list');
+          } else {
+            alert(
+              'That list does not exist. Please try again or create a new list.',
+            );
+          }
         }}
       >
         <label htmlFor="user token">Share Token</label>
