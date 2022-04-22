@@ -25,11 +25,18 @@ export default function AddItem() {
   const submitHandler = async (e) => {
     e.preventDefault();
 
-    const regex = /[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]/g;
     const cleanList = docs.map((listItem) =>
-      listItem.data().item.toLowerCase().replace(regex, ''),
+      listItem
+        .data()
+        .item.replace(/[^a-zA-Z\s]/g, '')
+        .replace(/\s+/g, ' ')
+        .toLowerCase(),
     );
-    const cleanItemName = itemName.toLowerCase().replace(regex, '');
+
+    const cleanItemName = itemName
+      .replace(/[^a-zA-Z\s]/g, '')
+      .replace(/\s+/g, ' ')
+      .toLowerCase();
 
     try {
       if (cleanList.includes(cleanItemName)) {
