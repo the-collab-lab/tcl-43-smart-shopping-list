@@ -24,15 +24,17 @@ export default function AddItem() {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+
     const regex = /[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]/g;
     const cleanList = docs.map((listItem) =>
       listItem.data().item.toLowerCase().replace(regex, ''),
     );
-
     const cleanItemName = itemName.toLowerCase().replace(regex, '');
+
     try {
       if (cleanList.includes(cleanItemName)) {
-        console.log('first');
+        setMessage(`${itemName} already included in the list.`);
+        throw Error(`${itemName} is already included in the list.`);
       }
       const docRef = await addDoc(collection(db, userToken), {
         item: itemName,
@@ -42,12 +44,10 @@ export default function AddItem() {
       console.log(docRef.id);
       setMessage(`${itemName} added to the list successfuly.`);
     } catch (e) {
-      setMessage(`${itemName} is already included in the list.`);
       console.error(e);
     }
     setItemName('');
     setFrequency(7);
-    console.log('second', message);
   };
 
   return (
@@ -93,9 +93,7 @@ export default function AddItem() {
         </fieldset>
         <button type="submit">Add Item</button>
       </form>
-
-      {/* Step 6: */}
-      {/* add in conditional logic for message - if it's not an empty string, display the message */}
+      {message && <p>{message}</p>}
     </>
   );
 }
