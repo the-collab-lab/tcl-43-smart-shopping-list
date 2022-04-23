@@ -29,19 +29,19 @@ export default function AddItem() {
       listItem
         .data()
         .item.replace(/[^a-zA-Z\s]/g, '')
-        .replace(/\s+/g, ' ')
+        .replace(/\s+/g, '')
         .toLowerCase(),
     );
 
     const cleanItemName = itemName
       .replace(/[^a-zA-Z\s]/g, '')
-      .replace(/\s+/g, ' ')
+      .replace(/\s+/g, '')
       .toLowerCase();
 
     try {
       if (cleanList.includes(cleanItemName)) {
-        setMessage(`${itemName} already included in the list.`);
-        throw Error(`${itemName} is already included in the list.`);
+        setMessage(`${cleanItemName} already included in the list.`);
+        throw Error(`${cleanItemName} is already included in the list.`);
       }
       const docRef = await addDoc(collection(db, userToken), {
         item: itemName,
