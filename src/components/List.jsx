@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { collection, onSnapshot } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { getUser } from '../storage-utils/storage-utils';
+import Nav from './Nav';
 
 export default function List() {
   const [docs, setDocs] = useState([]);
@@ -26,6 +27,8 @@ export default function List() {
           return <p key={index}>{item.data().item}</p>;
         })}
       </div>
+
+      <Nav />
     </>
   );
 }

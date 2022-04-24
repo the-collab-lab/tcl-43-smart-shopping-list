@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { collection, addDoc } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { getUser } from '../storage-utils/storage-utils';
+import Nav from './Nav';
 import { onSnapshot } from 'firebase/firestore';
 
 export default function AddItem() {
@@ -101,6 +102,8 @@ export default function AddItem() {
         <button type="submit">Add Item</button>
       </form>
       {message && <p>{message}</p>}
+       
+      <Nav />
     </>
   );
 }
