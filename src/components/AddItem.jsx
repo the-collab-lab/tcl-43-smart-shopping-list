@@ -1,27 +1,58 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { collection, addDoc } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { getUser } from '../storage-utils/storage-utils';
+import { onSnapshot } from 'firebase/firestore';
 
 export default function AddItem() {
   const [userToken] = useState(getUser());
   const [itemName, setItemName] = useState('');
   const [frequency, setFrequency] = useState(7);
+  const [message, setMessage] = useState('');
+  const [docs, setDocs] = useState([]);
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(collection(db, userToken), (snapshot) => {
+      let snapshotDocs = [];
+      snapshot.forEach((doc) => snapshotDocs.push(doc));
+      setDocs(snapshotDocs);
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, [userToken]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
 
+    const cleanStringHandler = (item) => {
+      return item
+        .replace(/[^a-zA-Z\s]/g, '')
+        .replace(/\s+/g, '')
+        .toLowerCase();
+    };
+
+    const cleanList = docs.map((listItem) =>
+      cleanStringHandler(listItem.data().item),
+    );
+
+    const cleanItemName = cleanStringHandler(itemName);
+
     try {
+      if (cleanList.includes(cleanItemName)) {
+        setMessage(`${cleanItemName} already included in the list.`);
+        throw Error(`${cleanItemName} is already included in the list.`);
+      }
       const docRef = await addDoc(collection(db, userToken), {
         item: itemName,
         frequency: frequency,
         lastPurchaseDate: null,
       });
       console.log(docRef.id);
+      setMessage(`${itemName} added to the list successfuly.`);
     } catch (e) {
       console.error(e);
     }
-
     setItemName('');
     setFrequency(7);
   };
@@ -69,6 +100,7 @@ export default function AddItem() {
         </fieldset>
         <button type="submit">Add Item</button>
       </form>
+      {message && <p>{message}</p>}
     </>
   );
 }
