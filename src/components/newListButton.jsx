@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getToken } from '@the-collab-lab/shopping-list-utils';
+import { generateToken } from '@the-collab-lab/shopping-list-utils';
 import { setUser, getUser } from '../storage-utils/storage-utils';
 
 const NewListButton = () => {
@@ -8,7 +8,7 @@ const NewListButton = () => {
 
   const onClick = async () => {
     if (userToken === null) {
-      const newUserToken = getToken(); // if null generate new token
+      const newUserToken = generateToken(); // if null generate new token
       setUser(newUserToken); // set into ls
       setUserToken(getUser()); // updating state with getUser token
     }
