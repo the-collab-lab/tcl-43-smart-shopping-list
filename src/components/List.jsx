@@ -17,21 +17,21 @@ export default function List() {
   const handleCheckBox = (e, item) => {
     e.preventDefault();
     let now = Timestamp.now().seconds;
-    // console.log("NOW: ", now)
-    // let dayFromNow = now + 86400
-    // console.log("day later: ", dayFromNow);
     const docItem = doc(db, userToken, item.id);
-    console.log('ITEM: ', docItem);
-
     updateDoc(docItem, {
       lastPurchaseDate: now,
     });
   };
 
   const check24Hrs = (item) => {
-    //  have it check the last purchase date for the item
-    // take line 15 => run that difference.. eg; now - items purchase date?
-    console.log('check 24 item last purchase');
+    let now = Timestamp.now().seconds;
+    let itemPurchaseDate = item.data().lastPurchaseDate;
+    let difference = now - itemPurchaseDate;
+    // We are using 86400 which is 24 hours in seconds since `now` is also in seconds
+    if (difference < 86400) {
+      return true;
+    }
+    return false;
   };
 
   useEffect(() => {
@@ -55,9 +55,12 @@ export default function List() {
             return (
               <li key={index}>
                 <input
+                  aria-label="checkbox for purchased item"
+                  id={item.data().id}
                   type="checkbox"
-                  onClick={(e) => handleCheckBox(e, item)}
+                  onChange={(e) => handleCheckBox(e, item)}
                   checked={check24Hrs(item)}
+                  disabled={check24Hrs(item)}
                 />
                 {item.data().item}
               </li>
