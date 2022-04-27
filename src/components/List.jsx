@@ -3,6 +3,7 @@ import { collection, onSnapshot } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { getUser } from '../storage-utils/storage-utils';
 import Nav from './Nav';
+import AddItem from './AddItem.jsx';
 
 export default function List() {
   const [docs, setDocs] = useState([]);
@@ -23,9 +24,11 @@ export default function List() {
     <>
       <h1>Shopping List</h1>
       <div>
-        {docs.map((item, index) => {
-          return <p key={index}>{item.data().item}</p>;
-        })}
+        {docs.length < 0
+          ? `Your shopping list is currently empty`
+          : docs.map((item, index) => {
+              return <p key={index}>{item.data().item}</p>;
+            })}
       </div>
 
       <Nav />
