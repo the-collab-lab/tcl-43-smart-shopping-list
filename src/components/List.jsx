@@ -23,15 +23,12 @@ export default function List() {
     });
   };
 
-  const check24Hrs = (item) => {
+  const wasPurchasedWithin24Hours = (item) => {
     let now = Timestamp.now().seconds;
     let itemPurchaseDate = item.data().lastPurchaseDate;
     let difference = now - itemPurchaseDate;
-    // We are using 86400 which is 24 hours in seconds since `now` is also in seconds
-    if (difference < 86400) {
-      return true;
-    }
-    return false;
+    const secondsInDay = 86400;
+    return difference < secondsInDay;
   };
 
   useEffect(() => {
@@ -59,8 +56,8 @@ export default function List() {
                   id={item.data().id}
                   type="checkbox"
                   onChange={(e) => handleCheckBox(e, item)}
-                  checked={check24Hrs(item)}
-                  disabled={check24Hrs(item)}
+                  checked={wasPurchasedWithin24Hours(item)}
+                  disabled={wasPurchasedWithin24Hours(item)}
                 />
                 {item.data().item}
               </li>
