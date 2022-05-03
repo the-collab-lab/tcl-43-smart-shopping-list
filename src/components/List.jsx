@@ -19,25 +19,19 @@ export default function List() {
 
   const handleCheckBox = (e, item) => {
     e.preventDefault();
-    let now = Timestamp.now().seconds;
+
     const docItem = doc(db, userToken, item.id);
+    let now = Timestamp.now().seconds;
     const lastPurchase = item.data().lastPurchaseDate;
     const itemCreated = item.data().dateItemAdded;
-    let daysSinceLastTransaction;
+    const totalPurchases = item.data().totalPurchases + 1;
 
+    let daysSinceLastTransaction;
     if (lastPurchase === null) {
       daysSinceLastTransaction = Math.round((now - itemCreated) / 86400);
     } else {
       daysSinceLastTransaction = Math.round((now - lastPurchase) / 86400);
     }
-
-    const totalPurchases = item.data().totalPurchases + 1;
-
-    console.log('days type: ', typeof daysSinceLastTransaction);
-    console.log('days value: ', daysSinceLastTransaction);
-
-    console.log('totalPurchases type: ', typeof totalPurchases);
-    console.log('totalPurchases value: ', totalPurchases);
 
     const estimatedPurchaseInterval = calculateEstimate(
       item.data().estimatedPurchaseInterval,
@@ -45,10 +39,10 @@ export default function List() {
       totalPurchases,
     );
 
-    console.log('estimatedDays', estimatedPurchaseInterval);
-
     updateDoc(docItem, {
       lastPurchaseDate: now,
+      totalPurchases: totalPurchases,
+      estimatedPurchaseInterval: estimatedPurchaseInterval,
     });
   };
 
