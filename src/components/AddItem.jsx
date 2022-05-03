@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { collection, addDoc } from 'firebase/firestore';
+import { collection, addDoc, Timestamp } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { getUser } from '../storage-utils/storage-utils';
 import Nav from './Nav';
@@ -48,6 +48,7 @@ export default function AddItem() {
         item: itemName,
         frequency: frequency,
         lastPurchaseDate: null,
+        dateItemAdded: Timestamp.now().seconds,
       });
       console.log(docRef.id);
       setMessage(`${itemName} added to the list successfuly.`);
@@ -102,7 +103,7 @@ export default function AddItem() {
         <button type="submit">Add Item</button>
       </form>
       {message && <p>{message}</p>}
-       
+
       <Nav />
     </>
   );

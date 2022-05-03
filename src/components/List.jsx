@@ -20,6 +20,16 @@ export default function List() {
     e.preventDefault();
     let now = Timestamp.now().seconds;
     const docItem = doc(db, userToken, item.id);
+    const lastPurchase = item.data().lastPurchaseDate;
+    const itemCreated = item.data().dateItemAdded;
+    let daysSinceLastTransaction;
+
+    if (lastPurchase === null) {
+      daysSinceLastTransaction = (now - itemCreated) / 86400;
+    } else {
+      daysSinceLastTransaction = (now - lastPurchase) / 86400;
+    }
+
     updateDoc(docItem, {
       lastPurchaseDate: now,
     });
@@ -62,22 +72,22 @@ export default function List() {
           </div>
         ) : (
           <ul>
-          {docs.map((item, index) => {
-            return (
-              <li key={index}>
-                <input
-                  aria-label="checkbox for purchased item"
-                  id={item.data().id}
-                  type="checkbox"
-                  onChange={(e) => handleCheckBox(e, item)}
-                  checked={wasPurchasedWithin24Hours(item)}
-                  disabled={wasPurchasedWithin24Hours(item)}
-                />
-                {item.data().item}
-              </li>
-            );
-          })}
-        </ul>
+            {docs.map((item, index) => {
+              return (
+                <li key={index}>
+                  <input
+                    aria-label="checkbox for purchased item"
+                    id={item.data().id}
+                    type="checkbox"
+                    onChange={(e) => handleCheckBox(e, item)}
+                    checked={wasPurchasedWithin24Hours(item)}
+                    disabled={wasPurchasedWithin24Hours(item)}
+                  />
+                  {item.data().item}
+                </li>
+              );
+            })}
+          </ul>
         )}
       </div>
       <Nav />
