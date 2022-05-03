@@ -49,6 +49,8 @@ export default function AddItem() {
         frequency: frequency,
         lastPurchaseDate: null,
         dateItemAdded: Timestamp.now().seconds,
+        estimatedPurchaseInterval: null,
+        totalPurchases: 0,
       });
       console.log(docRef.id);
       setMessage(`${itemName} added to the list successfuly.`);
