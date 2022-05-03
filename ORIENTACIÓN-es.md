@@ -112,7 +112,6 @@ Una semana puede parecer mucho tiempo, pero, parte de trabajar en un equipo sign
 
 ![Cadencia Semanal](https://user-images.githubusercontent.com/25017973/111341001-58235a80-8636-11eb-88a9-c145e3bb6c73.png)
 
-
 ### Weekly Syncs
 
 Cada domingo el equipo se reunirá en una llamada de Zoom para el Weekly Sync. Esta reunión siempre tiene un patrón familiar:
