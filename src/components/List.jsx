@@ -62,22 +62,22 @@ export default function List() {
           </div>
         ) : (
           <ul>
-          {docs.map((item, index) => {
-            return (
-              <li key={index}>
-                <input
-                  aria-label="checkbox for purchased item"
-                  id={item.data().id}
-                  type="checkbox"
-                  onChange={(e) => handleCheckBox(e, item)}
-                  checked={wasPurchasedWithin24Hours(item)}
-                  disabled={wasPurchasedWithin24Hours(item)}
-                />
-                {item.data().item}
-              </li>
-            );
-          })}
-        </ul>
+            {docs.map((item, index) => {
+              return (
+                <li key={index}>
+                  <input
+                    aria-label="checkbox for purchased item"
+                    id={item.data().id}
+                    type="checkbox"
+                    onChange={(e) => handleCheckBox(e, item)}
+                    checked={wasPurchasedWithin24Hours(item)}
+                    disabled={wasPurchasedWithin24Hours(item)}
+                  />
+                  {item.data().item}
+                </li>
+              );
+            })}
+          </ul>
         )}
       </div>
       <Nav />
