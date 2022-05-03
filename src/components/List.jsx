@@ -1,5 +1,11 @@
 import { useState, useEffect } from 'react';
-import { collection, onSnapshot } from 'firebase/firestore';
+import {
+  collection,
+  onSnapshot,
+  Timestamp,
+  doc,
+  updateDoc,
+} from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { getUser } from '../storage-utils/storage-utils';
 import Nav from './Nav';
@@ -9,6 +15,23 @@ export default function List() {
   const [docs, setDocs] = useState([]);
   const [userToken] = useState(getUser());
   const navigate = useNavigate();
+
+  const handleCheckBox = (e, item) => {
+    e.preventDefault();
+    let now = Timestamp.now().seconds;
+    const docItem = doc(db, userToken, item.id);
+    updateDoc(docItem, {
+      lastPurchaseDate: now,
+    });
+  };
+
+  const wasPurchasedWithin24Hours = (item) => {
+    let now = Timestamp.now().seconds;
+    let itemPurchaseDate = item.data().lastPurchaseDate;
+    let difference = now - itemPurchaseDate;
+    const secondsInDay = 86400;
+    return difference < secondsInDay;
+  };
 
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, userToken), (snapshot) => {
@@ -24,6 +47,7 @@ export default function List() {
   return (
     <>
       <h1>Shopping List</h1>
+
       <div>
         {docs.length === 0 ? (
           <div>
@@ -37,12 +61,25 @@ export default function List() {
             </button>
           </div>
         ) : (
-          docs.map((item, index) => {
-            return <p key={index}>{item.data().item}</p>;
-          })
+          <ul>
+          {docs.map((item, index) => {
+            return (
+              <li key={index}>
+                <input
+                  aria-label="checkbox for purchased item"
+                  id={item.data().id}
+                  type="checkbox"
+                  onChange={(e) => handleCheckBox(e, item)}
+                  checked={wasPurchasedWithin24Hours(item)}
+                  disabled={wasPurchasedWithin24Hours(item)}
+                />
+                {item.data().item}
+              </li>
+            );
+          })}
+        </ul>
         )}
       </div>
-
       <Nav />
     </>
   );
