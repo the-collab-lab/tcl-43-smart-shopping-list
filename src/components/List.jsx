@@ -9,10 +9,12 @@ import {
 import { db } from '../lib/firebase';
 import { getUser } from '../storage-utils/storage-utils';
 import Nav from './Nav';
+import { useNavigate } from 'react-router-dom';
 
 export default function List() {
   const [docs, setDocs] = useState([]);
   const [userToken] = useState(getUser());
+  const navigate = useNavigate();
 
   const handleCheckBox = (e, item) => {
     e.preventDefault();
@@ -47,7 +49,19 @@ export default function List() {
       <h1>Shopping List</h1>
 
       <div>
-        <ul>
+        {docs.length === 0 ? (
+          <div>
+            <p>Your shopping list is currently empty</p>
+            <button
+              onClick={() => {
+                navigate('/addItem');
+              }}
+            >
+              Add Item
+            </button>
+          </div>
+        ) : (
+          <ul>
           {docs.map((item, index) => {
             return (
               <li key={index}>
@@ -64,8 +78,8 @@ export default function List() {
             );
           })}
         </ul>
+        )}
       </div>
-
       <Nav />
     </>
   );

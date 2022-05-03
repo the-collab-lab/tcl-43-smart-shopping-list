@@ -11,7 +11,7 @@ export default function JoinExistingList() {
 
   // get the collection when userToken changes
   useEffect(() => {
-    if (userToken !== '') {
+    if (userToken && userToken.split(' ').length === 3) {
       const unsubscribe = onSnapshot(collection(db, userToken), (snapshot) => {
         let snapshotDocs = [];
         snapshot.forEach((doc) => snapshotDocs.push(doc));
