@@ -17,6 +17,9 @@ export default function List() {
   const [userToken] = useState(getUser());
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
+  const [clearSearch, setClearSearch] = useState();
+  const [loading, setLoading] = useState(false);
+
   const handleCheckBox = (e, item) => {
     e.preventDefault();
     let now = Timestamp.now().seconds;
@@ -25,6 +28,7 @@ export default function List() {
       lastPurchaseDate: now,
     });
   };
+
   const wasPurchasedWithin24Hours = (item) => {
     let now = Timestamp.now().seconds;
     let itemPurchaseDate = item.data().lastPurchaseDate;
@@ -32,21 +36,27 @@ export default function List() {
     const secondsInDay = 86400;
     return difference < secondsInDay;
   };
+
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, userToken), (snapshot) => {
       let snapshotDocs = [];
       snapshot.forEach((doc) => snapshotDocs.push(doc));
       setDocs(snapshotDocs);
+
+      if (clearSearch === '') {
+        window.location.reload(false);
+      }
     });
     return () => {
       unsubscribe();
     };
-  }, [userToken]);
+  }, [userToken, clearSearch]);
+
   return (
     <>
       <h1>Shopping List</h1>
       <div>
-        {docs.length === 0 ? (
+        {docs.length === 0 && loading ? (
           <div>
             <p>Your shopping list is currently empty</p>
             <button
@@ -61,11 +71,15 @@ export default function List() {
           <div>
             <input
               type="text"
-              placeholder="search..."
+              placeholder="Search..."
+              value={clearSearch}
               onChange={(e) => {
                 setSearchTerm(e.target.value);
               }}
             />
+
+            <button onClick={() => setClearSearch(() => '')}>Reset</button>
+
             <ul>
               {docs
                 .filter((item) => {
