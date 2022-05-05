@@ -15,9 +15,8 @@ export default function List() {
   //states:
   const [docs, setDocs] = useState([]);
   const [userToken] = useState(getUser());
-  const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
-  const [clearSearch, setClearSearch] = useState();
+  const [searchInputValue, setSearchInputValue] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleCheckBox = (e, item) => {
@@ -42,15 +41,11 @@ export default function List() {
       let snapshotDocs = [];
       snapshot.forEach((doc) => snapshotDocs.push(doc));
       setDocs(snapshotDocs);
-
-      if (clearSearch === '') {
-        window.location.reload(false);
-      }
     });
     return () => {
       unsubscribe();
     };
-  }, [userToken, clearSearch]);
+  }, [userToken]);
 
   return (
     <>
@@ -72,27 +67,21 @@ export default function List() {
             <input
               type="text"
               placeholder="Search..."
-              value={clearSearch}
+              value={searchInputValue}
               onChange={(e) => {
-                setSearchTerm(e.target.value);
+                setSearchInputValue(e.target.value);
               }}
             />
 
-            <button onClick={() => setClearSearch(() => '')}>Reset</button>
+            <button onClick={() => setSearchInputValue(() => '')}>Reset</button>
 
             <ul>
               {docs
                 .filter((item) => {
-                  if (searchTerm === '') {
-                    return item;
-                  } else if (
-                    item
-                      .data()
-                      .item.toLowerCase()
-                      .includes(searchTerm.toLowerCase())
-                  ) {
-                    return item;
-                  }
+                  return item
+                    .data()
+                    .item.toLowerCase()
+                    .includes(searchInputValue.toLowerCase());
                 })
                 .map((item, index) => {
                   return (
