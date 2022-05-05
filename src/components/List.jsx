@@ -17,7 +17,6 @@ export default function List() {
   const [userToken] = useState(getUser());
   const navigate = useNavigate();
   const [searchInputValue, setSearchInputValue] = useState('');
-  const [loading, setLoading] = useState(false);
 
   const handleCheckBox = (e, item) => {
     e.preventDefault();
@@ -51,7 +50,7 @@ export default function List() {
     <>
       <h1>Shopping List</h1>
       <div>
-        {docs.length === 0 && loading ? (
+        {docs.length === 0 ? (
           <div>
             <p>Your shopping list is currently empty</p>
             <button
