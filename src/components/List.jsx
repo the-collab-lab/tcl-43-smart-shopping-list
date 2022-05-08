@@ -49,58 +49,56 @@ export default function List() {
   return (
     <>
       <h1>Shopping List</h1>
-      <div>
-        {docs.length === 0 ? (
-          <div>
-            <p>Your shopping list is currently empty</p>
-            <button
-              onClick={() => {
-                navigate('/addItem');
-              }}
-            >
-              Add Item
-            </button>
-          </div>
-        ) : (
-          <div>
-            <input
-              type="text"
-              placeholder="Search..."
-              value={searchInputValue}
-              onChange={(e) => {
-                setSearchInputValue(e.target.value);
-              }}
-            />
+      {docs.length === 0 ? (
+        <div>
+          <p>Your shopping list is currently empty</p>
+          <button
+            onClick={() => {
+              navigate('/addItem');
+            }}
+          >
+            Add Item
+          </button>
+        </div>
+      ) : (
+        <div>
+          <input
+            type="text"
+            placeholder="Search..."
+            value={searchInputValue}
+            onChange={(e) => {
+              setSearchInputValue(e.target.value);
+            }}
+          />
 
-            <button onClick={() => setSearchInputValue(() => '')}>Reset</button>
+          <button onClick={() => setSearchInputValue(() => '')}>Reset</button>
 
-            <ul>
-              {docs
-                .filter((item) => {
-                  return item
-                    .data()
-                    .item.toLowerCase()
-                    .includes(searchInputValue.toLowerCase());
-                })
-                .map((item, index) => {
-                  return (
-                    <li key={index}>
-                      <input
-                        aria-label="checkbox for purchased item"
-                        id={item.data().id}
-                        type="checkbox"
-                        onChange={(e) => handleCheckBox(e, item)}
-                        checked={wasPurchasedWithin24Hours(item)}
-                        disabled={wasPurchasedWithin24Hours(item)}
-                      />
-                      {item.data().item}
-                    </li>
-                  );
-                })}
-            </ul>
-          </div>
-        )}
-      </div>
+          <ul>
+            {docs
+              .filter((item) => {
+                return item
+                  .data()
+                  .item.toLowerCase()
+                  .includes(searchInputValue.toLowerCase());
+              })
+              .map((item, index) => {
+                return (
+                  <li key={index}>
+                    <input
+                      aria-label="checkbox for purchased item"
+                      id={item.data().id}
+                      type="checkbox"
+                      onChange={(e) => handleCheckBox(e, item)}
+                      checked={wasPurchasedWithin24Hours(item)}
+                      disabled={wasPurchasedWithin24Hours(item)}
+                    />
+                    {item.data().item}
+                  </li>
+                );
+              })}
+          </ul>
+        </div>
+      )}
       <Nav />
     </>
   );
