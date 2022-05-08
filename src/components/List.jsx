@@ -12,9 +12,11 @@ import Nav from './Nav';
 import { useNavigate } from 'react-router-dom';
 
 export default function List() {
+  //states:
   const [docs, setDocs] = useState([]);
   const [userToken] = useState(getUser());
   const navigate = useNavigate();
+  const [searchInputValue, setSearchInputValue] = useState('');
 
   const handleCheckBox = (e, item) => {
     e.preventDefault();
@@ -47,39 +49,56 @@ export default function List() {
   return (
     <>
       <h1>Shopping List</h1>
+      {docs.length === 0 ? (
+        <div>
+          <p>Your shopping list is currently empty</p>
+          <button
+            onClick={() => {
+              navigate('/addItem');
+            }}
+          >
+            Add Item
+          </button>
+        </div>
+      ) : (
+        <div>
+          <input
+            type="text"
+            placeholder="Search..."
+            value={searchInputValue}
+            onChange={(e) => {
+              setSearchInputValue(e.target.value);
+            }}
+          />
 
-      <div>
-        {docs.length === 0 ? (
-          <div>
-            <p>Your shopping list is currently empty</p>
-            <button
-              onClick={() => {
-                navigate('/addItem');
-              }}
-            >
-              Add Item
-            </button>
-          </div>
-        ) : (
+          <button onClick={() => setSearchInputValue(() => '')}>Reset</button>
+
           <ul>
-            {docs.map((item, index) => {
-              return (
-                <li key={index}>
-                  <input
-                    aria-label="checkbox for purchased item"
-                    id={item.data().id}
-                    type="checkbox"
-                    onChange={(e) => handleCheckBox(e, item)}
-                    checked={wasPurchasedWithin24Hours(item)}
-                    disabled={wasPurchasedWithin24Hours(item)}
-                  />
-                  {item.data().item}
-                </li>
-              );
-            })}
+            {docs
+              .filter((item) => {
+                return item
+                  .data()
+                  .item.toLowerCase()
+                  .includes(searchInputValue.toLowerCase());
+              })
+              .map((item, index) => {
+                return (
+                  <li key={index}>
+                    <input
+                      aria-label="checkbox for purchased item"
+                      id={item.data().id}
+                      type="checkbox"
+                      onChange={(e) => handleCheckBox(e, item)}
+                      checked={wasPurchasedWithin24Hours(item)}
+                      disabled={wasPurchasedWithin24Hours(item)}
+                    />
+                    {item.data().item}
+                  </li>
+                );
+              })}
           </ul>
-        )}
-      </div>
+        </div>
+      )}
       <Nav />
     </>
   );
