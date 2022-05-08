@@ -10,6 +10,7 @@ import { db } from '../lib/firebase';
 import { getUser } from '../storage-utils/storage-utils';
 import Nav from './Nav';
 import { useNavigate } from 'react-router-dom';
+import { calculateEstimate } from '@the-collab-lab/shopping-list-utils';
 
 export default function List() {
   //states:
@@ -20,10 +21,30 @@ export default function List() {
 
   const handleCheckBox = (e, item) => {
     e.preventDefault();
-    let now = Timestamp.now().seconds;
+
     const docItem = doc(db, userToken, item.id);
+    let now = Timestamp.now().seconds;
+    const lastPurchase = item.data().lastPurchaseDate;
+    const itemCreated = item.data().dateItemAdded;
+    const totalPurchases = item.data().totalPurchases + 1;
+
+    let daysSinceLastTransaction;
+    if (lastPurchase === null) {
+      daysSinceLastTransaction = Math.round((now - itemCreated) / 86400);
+    } else {
+      daysSinceLastTransaction = Math.round((now - lastPurchase) / 86400);
+    }
+
+    const estimatedPurchaseInterval = calculateEstimate(
+      item.data().estimatedPurchaseInterval,
+      daysSinceLastTransaction,
+      totalPurchases,
+    );
+
     updateDoc(docItem, {
       lastPurchaseDate: now,
+      totalPurchases: totalPurchases,
+      estimatedPurchaseInterval: estimatedPurchaseInterval,
     });
   };
 
