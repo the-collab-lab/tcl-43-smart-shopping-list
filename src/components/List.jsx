@@ -5,6 +5,7 @@ import {
   Timestamp,
   doc,
   updateDoc,
+  deleteDoc,
 } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { getUser } from '../storage-utils/storage-utils';
@@ -67,6 +68,10 @@ export default function List() {
     };
   }, [userToken]);
 
+  const deleteHandler = async (item) => {
+    await deleteDoc(doc(db, userToken, item.id));
+  };
+
   return (
     <>
       <h1>Shopping List</h1>
@@ -104,17 +109,23 @@ export default function List() {
               })
               .map((item, index) => {
                 return (
-                  <li key={index}>
-                    <input
-                      aria-label="checkbox for purchased item"
-                      id={item.data().id}
-                      type="checkbox"
-                      onChange={(e) => handleCheckBox(e, item)}
-                      checked={wasPurchasedWithin24Hours(item)}
-                      disabled={wasPurchasedWithin24Hours(item)}
-                    />
-                    {item.data().item}
-                  </li>
+                  <>
+                    <li key={index}>
+                      <input
+                        aria-label="checkbox for purchased item"
+                        id={item.data().id}
+                        type="checkbox"
+                        onChange={(e) => handleCheckBox(e, item)}
+                        checked={wasPurchasedWithin24Hours(item)}
+                        disabled={wasPurchasedWithin24Hours(item)}
+                      />
+                      {item.data().item}
+
+                      <button onClick={() => deleteHandler(item)}>
+                        delete
+                      </button>
+                    </li>
+                  </>
                 );
               })}
           </ul>
