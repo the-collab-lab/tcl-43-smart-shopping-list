@@ -68,8 +68,15 @@ export default function List() {
     };
   }, [userToken]);
 
-  const deleteHandler = async (item) => {
-    await deleteDoc(doc(db, userToken, item.id));
+  const deleteHandler = (item) => {
+    const deletionConfirmation = window.confirm(
+      `Are you sure you'd like to delete ${
+        item.data().item
+      } from your shopping list?`,
+    );
+    if (deletionConfirmation) {
+      deleteDoc(doc(db, userToken, item.id));
+    }
   };
 
   return (
