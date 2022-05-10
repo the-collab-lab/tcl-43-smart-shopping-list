@@ -93,7 +93,36 @@ export default function List() {
           />
 
           <button onClick={() => setSearchInputValue(() => '')}>Reset</button>
+          {/*
+PEDAC
+Problem: sort doc items according to how soon they should be purchased. Each item should be marked as either needing to be bought soon, kinda soon, not soon or inactive. Items will appear in the list with different colored checkboxes according to which group they belong to and then alphabetically within the group. 
 
+
+Examples: how to test (maybe include how to edit fields in firestore and what order the list should appear in with those values)
+
+Data Structures: 
+
+     Input: item
+     Output: soon, kindaSoon, notSoon, inactive
+
+Algorithm: 
+DaysUntilNextPurcahse = now - purchase interval(seconds))/ 86400
+         sort first by DaysUntilNextPurcahse
+
+         inactive: if purchaseInterval is out of date
+                      if totalPurchase === 1 || 
+                      if (now - lastPurchaseDate / 86400) * 2 >= estimated purchase interval
+
+          soon: if DaysUntilNextPurcahse < 7
+
+          kindaSoon: if DaysUntilNextPurcahse >= 7 && <= 30
+
+          notSoon: if DaysUntilNextPurcahse > 30
+
+
+Code:
+daysUntilNextPurchase = (Math.round(((Date.now()/1000) - item.data().lastPurchasedate)/86400))         
+*/}
           <ul>
             {docs
               .filter((item) => {
