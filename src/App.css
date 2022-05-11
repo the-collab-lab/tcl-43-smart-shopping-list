@@ -19,14 +19,14 @@ a {
   font-weight: bold;
 }
 .soon {
-  background: green;
+  background-color: green;
 }
 .kinda-soon {
-  background: blue;
+  background-color: blue;
 }
 .not-soon {
-  background: purple;
+  background-color: purple;
 }
 .inactive {
-  background: gray;
+  background-color: gray;
 }

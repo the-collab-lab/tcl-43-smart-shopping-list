@@ -20,7 +20,6 @@ export default function List() {
   const [userToken] = useState(getUser());
   const navigate = useNavigate();
   const [searchInputValue, setSearchInputValue] = useState('');
-  const [purchaseInterval, setPurchaseInterval] = useState('inactive');
 
   const handleCheckBox = (e, item) => {
     e.preventDefault();
@@ -58,22 +57,24 @@ export default function List() {
     const secondsInDay = 86400;
     return difference < secondsInDay;
   };
+
   /*daysSinceLastPurchase = (now - last purchase date) / 86400 
                       = 30 days ago
 estimatedPurchaseInterval = 14 days
 daysUntilNextPurchase = estimatedPurchaseInterval - daysSinceLastPurchase
                          14 - 30 = -16
-         sort first by DaysUntilNextPurcahse
-
-         inactive: if purchaseInterval is out of date
-                   if daysSinceLastPurchase is double or more estimatedPurcahseInterval 
-                      if totalPurchases <= 1 || 
-                      (estimatedPurchaseInterval * 2) <= daysSinceLastPurchase*/
-  const determinePurchaseInterval = (item) => {
+         sort first by DaysUntilNextPurcahse*/
+  const determinePurchaseCategory = (item) => {
     const now = Date.now() / 1000;
-    console.lof = now;
-    const daysSinceLastPurchase = (now - item.data().lastPurchaseDate) / 86400;
-    console.log(daysSinceLastPurchase);
+    const daysSinceLastPurchase = Math.round(
+      (now - item.data().lastPurchaseDate) / 86400,
+    );
+    const daysUntilNextPurchase =
+      item.data().estimatedPurchaseInterval - daysSinceLastPurchase;
+    console.log('name: ', item.data().item);
+
+    console.log('Days since last purchase: ', daysSinceLastPurchase);
+    console.log('days until next purchase: ', daysUntilNextPurchase);
 
     if (
       item.data().totalPurchases <= 1 ||
@@ -82,14 +83,21 @@ daysUntilNextPurchase = estimatedPurchaseInterval - daysSinceLastPurchase
       return 'inactive';
     }
 
-    switch (daysSinceLastPurchase) {
-      case daysSinceLastPurchase < 7:
-        return 'soon';
-      case daysSinceLastPurchase <= 30:
-        return 'kinda soon';
-      default:
-        return 'not soon';
+    if (daysUntilNextPurchase < 7) {
+      return 'soon';
+    } else if (daysUntilNextPurchase <= 30) {
+      return 'kinda-soon';
+    } else {
+      return 'not-soon';
     }
+  };
+
+  const sortList = (docs) => {
+    const sorted = [];
+
+    // ??? not sure how to do this! The list needs to be sorted by daysUntilNextPurchase (see determinePurchaseCategory() above)
+
+    return sorted;
   };
 
   useEffect(() => {
@@ -98,7 +106,10 @@ daysUntilNextPurchase = estimatedPurchaseInterval - daysSinceLastPurchase
     const unsubscribe = onSnapshot(q, (snapshot) => {
       let snapshotDocs = [];
       snapshot.forEach((doc) => snapshotDocs.push(doc));
+
       setDocs(snapshotDocs);
+      //once sortList() works we will use:
+      //setDocs(sortList(snapshotDocs));
     });
     return () => {
       unsubscribe();
@@ -144,15 +155,17 @@ daysUntilNextPurchase = estimatedPurchaseInterval - daysSinceLastPurchase
               .map((item, index) => {
                 return (
                   <li key={index}>
-                    <input
-                      class={determinePurchaseInterval(item)}
-                      aria-label="checkbox for purchased item"
-                      id={item.data().id}
-                      type="checkbox"
-                      onChange={(e) => handleCheckBox(e, item)}
-                      checked={wasPurchasedWithin24Hours(item)}
-                      disabled={wasPurchasedWithin24Hours(item)}
-                    />
+                    <label className={determinePurchaseCategory(item)}>
+                      <input
+                        aria-label="checkbox for purchased item"
+                        id={item.data().id}
+                        type="checkbox"
+                        onChange={(e) => handleCheckBox(e, item)}
+                        checked={wasPurchasedWithin24Hours(item)}
+                        disabled={wasPurchasedWithin24Hours(item)}
+                      />
+                      <span></span>
+                    </label>
                     {item.data().item}
                   </li>
                 );
@@ -174,8 +187,6 @@ Examples: how to test (maybe include how to edit fields in firestore and what or
 
 Data Structures: 
 
-     Input: item
-     Output: soon, kindaSoon, notSoon, inactive
 
 Algorithm: 
 converts seconds to days
