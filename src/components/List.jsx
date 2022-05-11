@@ -58,12 +58,6 @@ export default function List() {
     return difference < secondsInDay;
   };
 
-  /*daysSinceLastPurchase = (now - last purchase date) / 86400 
-                      = 30 days ago
-estimatedPurchaseInterval = 14 days
-daysUntilNextPurchase = estimatedPurchaseInterval - daysSinceLastPurchase
-                         14 - 30 = -16
-         sort first by DaysUntilNextPurcahse*/
   const determinePurchaseCategory = (item) => {
     const now = Date.now() / 1000;
     const daysSinceLastPurchase = Math.round(
@@ -82,7 +76,6 @@ daysUntilNextPurchase = estimatedPurchaseInterval - daysSinceLastPurchase
     ) {
       return 'inactive';
     }
-
     if (daysUntilNextPurchase < 7) {
       return 'soon';
     } else if (daysUntilNextPurchase <= 30) {
@@ -93,11 +86,38 @@ daysUntilNextPurchase = estimatedPurchaseInterval - daysSinceLastPurchase
   };
 
   const sortList = (docs) => {
-    const sorted = [];
+    docs.sort(function (a, b) {
+      const now = Date.now() / 1000;
+      const daysSinceLastPurchaseA = Math.round(
+        (now - a.data().lastPurchaseDate) / 86400,
+      );
+      const daysSinceLastPurchaseB = Math.round(
+        (now - b.data().lastPurchaseDate) / 86400,
+      );
+      const daysUntilNextPurchaseA =
+        a.data().estimatedPurchaseInterval - daysSinceLastPurchaseA;
+      const daysUntilNextPurchaseB =
+        b.data().estimatedPurchaseInterval - daysSinceLastPurchaseB;
 
-    // ??? not sure how to do this! The list needs to be sorted by daysUntilNextPurchase (see determinePurchaseCategory() above)
-
-    return sorted;
+      return daysUntilNextPurchaseA - daysUntilNextPurchaseB;
+    });
+    const inactives = [];
+    const actives = [];
+    docs.forEach((item, index) => {
+      const now = Date.now() / 1000;
+      const daysSinceLastPurchase = Math.round(
+        (now - item.data().lastPurchaseDate) / 86400,
+      );
+      if (
+        item.data().totalPurchases <= 1 ||
+        item.data().estimatedPurchaseInterval * 2 <= daysSinceLastPurchase
+      ) {
+        inactives.push(docs[index]);
+      } else {
+        actives.push(docs[index]);
+      }
+    });
+    return [...actives, ...inactives];
   };
 
   useEffect(() => {
@@ -106,10 +126,7 @@ daysUntilNextPurchase = estimatedPurchaseInterval - daysSinceLastPurchase
     const unsubscribe = onSnapshot(q, (snapshot) => {
       let snapshotDocs = [];
       snapshot.forEach((doc) => snapshotDocs.push(doc));
-
-      setDocs(snapshotDocs);
-      //once sortList() works we will use:
-      //setDocs(sortList(snapshotDocs));
+      setDocs(sortList(snapshotDocs));
     });
     return () => {
       unsubscribe();
