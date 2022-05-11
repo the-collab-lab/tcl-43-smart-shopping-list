@@ -5,6 +5,8 @@ import {
   Timestamp,
   doc,
   updateDoc,
+  query,
+  orderBy,
 } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { getUser } from '../storage-utils/storage-utils';
@@ -18,6 +20,7 @@ export default function List() {
   const [userToken] = useState(getUser());
   const navigate = useNavigate();
   const [searchInputValue, setSearchInputValue] = useState('');
+  const [purchaseInterval, setPurchaseInterval] = useState('inactive');
 
   const handleCheckBox = (e, item) => {
     e.preventDefault();
@@ -55,9 +58,44 @@ export default function List() {
     const secondsInDay = 86400;
     return difference < secondsInDay;
   };
+  /*daysSinceLastPurchase = (now - last purchase date) / 86400 
+                      = 30 days ago
+estimatedPurchaseInterval = 14 days
+daysUntilNextPurchase = estimatedPurchaseInterval - daysSinceLastPurchase
+                         14 - 30 = -16
+         sort first by DaysUntilNextPurcahse
+
+         inactive: if purchaseInterval is out of date
+                   if daysSinceLastPurchase is double or more estimatedPurcahseInterval 
+                      if totalPurchases <= 1 || 
+                      (estimatedPurchaseInterval * 2) <= daysSinceLastPurchase*/
+  const determinePurchaseInterval = (item) => {
+    const now = Date.now() / 1000;
+    console.lof = now;
+    const daysSinceLastPurchase = (now - item.data().lastPurchaseDate) / 86400;
+    console.log(daysSinceLastPurchase);
+
+    if (
+      item.data().totalPurchases <= 1 ||
+      item.data().estimatedPurchaseInterval * 2 <= daysSinceLastPurchase
+    ) {
+      return 'inactive';
+    }
+
+    switch (daysSinceLastPurchase) {
+      case daysSinceLastPurchase < 7:
+        return 'soon';
+      case daysSinceLastPurchase <= 30:
+        return 'kinda soon';
+      default:
+        return 'not soon';
+    }
+  };
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, userToken), (snapshot) => {
+    const listRef = collection(db, userToken);
+    const q = query(listRef, orderBy('item'));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
       let snapshotDocs = [];
       snapshot.forEach((doc) => snapshotDocs.push(doc));
       setDocs(snapshotDocs);
@@ -93,36 +131,7 @@ export default function List() {
           />
 
           <button onClick={() => setSearchInputValue(() => '')}>Reset</button>
-          {/*
-PEDAC
-Problem: sort doc items according to how soon they should be purchased. Each item should be marked as either needing to be bought soon, kinda soon, not soon or inactive. Items will appear in the list with different colored checkboxes according to which group they belong to and then alphabetically within the group. 
 
-
-Examples: how to test (maybe include how to edit fields in firestore and what order the list should appear in with those values)
-
-Data Structures: 
-
-     Input: item
-     Output: soon, kindaSoon, notSoon, inactive
-
-Algorithm: 
-DaysUntilNextPurcahse = now - purchase interval(seconds))/ 86400
-         sort first by DaysUntilNextPurcahse
-
-         inactive: if purchaseInterval is out of date
-                      if totalPurchase === 1 || 
-                      if (now - lastPurchaseDate / 86400) * 2 >= estimated purchase interval
-
-          soon: if DaysUntilNextPurcahse < 7
-
-          kindaSoon: if DaysUntilNextPurcahse >= 7 && <= 30
-
-          notSoon: if DaysUntilNextPurcahse > 30
-
-
-Code:
-daysUntilNextPurchase = (Math.round(((Date.now()/1000) - item.data().lastPurchasedate)/86400))         
-*/}
           <ul>
             {docs
               .filter((item) => {
@@ -131,10 +140,12 @@ daysUntilNextPurchase = (Math.round(((Date.now()/1000) - item.data().lastPurchas
                   .item.toLowerCase()
                   .includes(searchInputValue.toLowerCase());
               })
+
               .map((item, index) => {
                 return (
                   <li key={index}>
                     <input
+                      class={determinePurchaseInterval(item)}
                       aria-label="checkbox for purchased item"
                       id={item.data().id}
                       type="checkbox"
@@ -153,3 +164,49 @@ daysUntilNextPurchase = (Math.round(((Date.now()/1000) - item.data().lastPurchas
     </>
   );
 }
+
+/*
+PEDAC
+Problem: sort doc items according to how soon they should be purchased. Each item should be marked as either needing to be bought soon, kinda soon, not soon or inactive. Items will appear in the list with different colored checkboxes according to which group they belong to and then alphabetically within the group. 
+
+
+Examples: how to test (maybe include how to edit fields in firestore and what order the list should appear in with those values)
+
+Data Structures: 
+
+     Input: item
+     Output: soon, kindaSoon, notSoon, inactive
+
+Algorithm: 
+converts seconds to days
+daysSinceLastPurchase = (now - last purchase date) / 86400 
+                      = 30 days ago
+estimatedPurchaseInterval = 14 days
+daysUntilNextPurchase = estimatedPurchaseInterval - daysSinceLastPurchase
+                         14 - 30 = -16
+         sort first by DaysUntilNextPurcahse
+
+         inactive: if purchaseInterval is out of date
+                   if daysSinceLastPurchase is double or more estimatedPurcahseInterval 
+                      if totalPurchases <= 1 || 
+                      (estimatedPurchaseInterval * 2) <= daysSinceLastPurchase
+
+
+          soon: if DaysUntilNextPurcahse < 7
+
+          kindaSoon: if DaysUntilNextPurcahse >= 7 && <= 30
+
+          notSoon: if DaysUntilNextPurcahse > 30
+
+sort by item name when collection is fetched
+after docs are filtered
+map item
+  purchaseInterval = determinePurchaseInterval(item)
+  purchaseInterval === "soon" && return <li> green 
+  purchaseInterval === "kindaSoon" && return <li> blue
+  purchaseInterval === "notSoon" && return <li> purple
+  purchaseInterval === "inactive" && return <li> grey   
+
+Code:
+daysUntilNextPurchase = (Math.round(((Date.now()/1000) - item.data().lastPurchasedate)/86400))         
+*/

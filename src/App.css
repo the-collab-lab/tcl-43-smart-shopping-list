@@ -18,3 +18,15 @@ a {
   font-size: 23px;
   font-weight: bold;
 }
+.soon {
+  background: green;
+}
+.kinda-soon {
+  background: blue;
+}
+.not-soon {
+  background: purple;
+}
+.inactive {
+  background: gray;
+}
