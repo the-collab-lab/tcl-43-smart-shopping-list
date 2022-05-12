@@ -20,7 +20,7 @@ export default function List() {
   const navigate = useNavigate();
   const [searchInputValue, setSearchInputValue] = useState('');
 
-  const handleCheckBox = (e, item) => {
+  const checkboxHandler = (e, item) => {
     e.preventDefault();
 
     const docItem = doc(db, userToken, item.id);
@@ -122,7 +122,7 @@ export default function List() {
                         aria-label="checkbox for purchased item"
                         id={item.data().id}
                         type="checkbox"
-                        onChange={(e) => handleCheckBox(e, item)}
+                        onChange={(e) => checkboxHandler(e, item)}
                         checked={wasPurchasedWithin24Hours(item)}
                         disabled={wasPurchasedWithin24Hours(item)}
                       />
