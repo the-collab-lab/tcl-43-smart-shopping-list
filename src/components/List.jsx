@@ -56,9 +56,10 @@ export default function List() {
     const lastPurchase = item.data().lastPurchaseDate;
     const itemCreated = item.data().dateItemAdded;
 
-    lastPurchase === null
-      ? Math.round((now - itemCreated) / 86400)
-      : Math.round((now - lastPurchase) / 86400);
+    if (!lastPurchase) {
+      return Math.round((now - itemCreated) / 86400);
+    }
+    return Math.round((now - lastPurchase) / 86400);
   };
 
   const daysUntilNextPurchase = (item) => {
@@ -67,20 +68,13 @@ export default function List() {
 
   const isActive = (item) => {
     return (
-      item.data().totalPurchases > 1 &&
+      !wasPurchasedWithin24Hours(item) &&
+      item.data().totalPurchases > 0 &&
       daysSinceLastPurchase(item) < item.data().estimatedPurchaseInterval * 2
     );
   };
 
   const determinePurchaseCategory = (item) => {
-    console.log('name: ', item.data().item);
-    console.log('Days since last purchase: ', daysSinceLastPurchase(item));
-    console.log(
-      'estimated purchase interval: ',
-      item.data().estimatedPurchaseInterval,
-    );
-    console.log('days until next purchase: ', daysUntilNextPurchase(item));
-
     if (!isActive(item)) {
       return 'inactive';
     }
@@ -106,6 +100,7 @@ export default function List() {
         return 1;
       }
     });
+    return docs;
   };
 
   useEffect(() => {
