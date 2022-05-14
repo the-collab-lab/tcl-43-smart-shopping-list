@@ -26,16 +26,9 @@ export default function List() {
 
     const docItem = doc(db, userToken, item.id);
     let now = Timestamp.now().seconds;
-    const lastPurchase = item.data().lastPurchaseDate;
-    const itemCreated = item.data().dateItemAdded;
     const totalPurchases = item.data().totalPurchases + 1;
 
-    let daysSinceLastTransaction;
-    if (lastPurchase === null) {
-      daysSinceLastTransaction = Math.round((now - itemCreated) / 86400);
-    } else {
-      daysSinceLastTransaction = Math.round((now - lastPurchase) / 86400);
-    }
+    const daysSinceLastTransaction = daysSinceLastPurchase(item);
 
     const estimatedPurchaseInterval = calculateEstimate(
       item.data().estimatedPurchaseInterval,
@@ -58,27 +51,43 @@ export default function List() {
     return difference < secondsInDay;
   };
 
-  const determinePurchaseCategory = (item) => {
-    const now = Date.now() / 1000;
-    const daysSinceLastPurchase = Math.round(
-      (now - item.data().lastPurchaseDate) / 86400,
+  const daysSinceLastPurchase = (item) => {
+    let now = Timestamp.now().seconds;
+    const lastPurchase = item.data().lastPurchaseDate;
+    const itemCreated = item.data().dateItemAdded;
+
+    lastPurchase === null
+      ? Math.round((now - itemCreated) / 86400)
+      : Math.round((now - lastPurchase) / 86400);
+  };
+
+  const daysUntilNextPurchase = (item) => {
+    return item.data().estimatedPurchaseInterval - daysSinceLastPurchase(item);
+  };
+
+  const isActive = (item) => {
+    return (
+      item.data().totalPurchases > 1 &&
+      daysSinceLastPurchase(item) < item.data().estimatedPurchaseInterval * 2
     );
-    const daysUntilNextPurchase =
-      item.data().estimatedPurchaseInterval - daysSinceLastPurchase;
+  };
+
+  const determinePurchaseCategory = (item) => {
     console.log('name: ', item.data().item);
+    console.log('Days since last purchase: ', daysSinceLastPurchase(item));
+    console.log(
+      'estimated purchase interval: ',
+      item.data().estimatedPurchaseInterval,
+    );
+    console.log('days until next purchase: ', daysUntilNextPurchase(item));
 
-    console.log('Days since last purchase: ', daysSinceLastPurchase);
-    console.log('days until next purchase: ', daysUntilNextPurchase);
-
-    if (
-      item.data().totalPurchases <= 1 ||
-      item.data().estimatedPurchaseInterval * 2 <= daysSinceLastPurchase
-    ) {
+    if (!isActive(item)) {
       return 'inactive';
     }
-    if (daysUntilNextPurchase < 7) {
+
+    if (daysUntilNextPurchase(item) < 7) {
       return 'soon';
-    } else if (daysUntilNextPurchase <= 30) {
+    } else if (daysUntilNextPurchase(item) <= 30) {
       return 'kinda-soon';
     } else {
       return 'not-soon';
@@ -87,37 +96,16 @@ export default function List() {
 
   const sortList = (docs) => {
     docs.sort(function (a, b) {
-      const now = Date.now() / 1000;
-      const daysSinceLastPurchaseA = Math.round(
-        (now - a.data().lastPurchaseDate) / 86400,
-      );
-      const daysSinceLastPurchaseB = Math.round(
-        (now - b.data().lastPurchaseDate) / 86400,
-      );
-      const daysUntilNextPurchaseA =
-        a.data().estimatedPurchaseInterval - daysSinceLastPurchaseA;
-      const daysUntilNextPurchaseB =
-        b.data().estimatedPurchaseInterval - daysSinceLastPurchaseB;
+      if ((isActive(a) && isActive(b)) || (!isActive(a) && !isActive(b))) {
+        return daysUntilNextPurchase(a) - daysUntilNextPurchase(b);
+      }
 
-      return daysUntilNextPurchaseA - daysUntilNextPurchaseB;
-    });
-    const inactives = [];
-    const actives = [];
-    docs.forEach((item, index) => {
-      const now = Date.now() / 1000;
-      const daysSinceLastPurchase = Math.round(
-        (now - item.data().lastPurchaseDate) / 86400,
-      );
-      if (
-        item.data().totalPurchases <= 1 ||
-        item.data().estimatedPurchaseInterval * 2 <= daysSinceLastPurchase
-      ) {
-        inactives.push(docs[index]);
+      if (isActive(a)) {
+        return -1;
       } else {
-        actives.push(docs[index]);
+        return 1;
       }
     });
-    return [...actives, ...inactives];
   };
 
   useEffect(() => {
@@ -125,6 +113,7 @@ export default function List() {
     const q = query(listRef, orderBy('item'));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       let snapshotDocs = [];
+
       snapshot.forEach((doc) => snapshotDocs.push(doc));
       setDocs(sortList(snapshotDocs));
     });
@@ -172,7 +161,12 @@ export default function List() {
               .map((item, index) => {
                 return (
                   <li key={index}>
-                    <label className={determinePurchaseCategory(item)}>
+                    <label
+                      className={determinePurchaseCategory(item)}
+                      aria-label={`next purchase is ${determinePurchaseCategory(
+                        item,
+                      )}`}
+                    >
                       <input
                         aria-label="checkbox for purchased item"
                         id={item.data().id}
@@ -194,47 +188,3 @@ export default function List() {
     </>
   );
 }
-
-/*
-PEDAC
-Problem: sort doc items according to how soon they should be purchased. Each item should be marked as either needing to be bought soon, kinda soon, not soon or inactive. Items will appear in the list with different colored checkboxes according to which group they belong to and then alphabetically within the group. 
-
-
-Examples: how to test (maybe include how to edit fields in firestore and what order the list should appear in with those values)
-
-Data Structures: 
-
-
-Algorithm: 
-converts seconds to days
-daysSinceLastPurchase = (now - last purchase date) / 86400 
-                      = 30 days ago
-estimatedPurchaseInterval = 14 days
-daysUntilNextPurchase = estimatedPurchaseInterval - daysSinceLastPurchase
-                         14 - 30 = -16
-         sort first by DaysUntilNextPurcahse
-
-         inactive: if purchaseInterval is out of date
-                   if daysSinceLastPurchase is double or more estimatedPurcahseInterval 
-                      if totalPurchases <= 1 || 
-                      (estimatedPurchaseInterval * 2) <= daysSinceLastPurchase
-
-
-          soon: if DaysUntilNextPurcahse < 7
-
-          kindaSoon: if DaysUntilNextPurcahse >= 7 && <= 30
-
-          notSoon: if DaysUntilNextPurcahse > 30
-
-sort by item name when collection is fetched
-after docs are filtered
-map item
-  purchaseInterval = determinePurchaseInterval(item)
-  purchaseInterval === "soon" && return <li> green 
-  purchaseInterval === "kindaSoon" && return <li> blue
-  purchaseInterval === "notSoon" && return <li> purple
-  purchaseInterval === "inactive" && return <li> grey   
-
-Code:
-daysUntilNextPurchase = (Math.round(((Date.now()/1000) - item.data().lastPurchasedate)/86400))         
-*/
