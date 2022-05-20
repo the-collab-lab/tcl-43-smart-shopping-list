@@ -7,6 +7,7 @@ import {
   updateDoc,
   query,
   orderBy,
+  deleteDoc,
 } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { getUser } from '../storage-utils/storage-utils';
@@ -21,7 +22,7 @@ export default function List() {
   const navigate = useNavigate();
   const [searchInputValue, setSearchInputValue] = useState('');
 
-  const handleCheckBox = (e, item) => {
+  const checkboxHandler = (e, item) => {
     e.preventDefault();
 
     const docItem = doc(db, userToken, item.id);
@@ -117,6 +118,17 @@ export default function List() {
     };
   }, [userToken]);
 
+  const deleteHandler = (item) => {
+    const deletionConfirmation = window.confirm(
+      `Are you sure you'd like to delete ${
+        item.data().item
+      } from your shopping list?`,
+    );
+    if (deletionConfirmation) {
+      deleteDoc(doc(db, userToken, item.id));
+    }
+  };
+
   return (
     <>
       <h1>Shopping List</h1>
@@ -155,7 +167,8 @@ export default function List() {
 
               .map((item, index) => {
                 return (
-                  <li key={index}>
+                  <div>
+                      <li key={index}>
                     <label
                       className={determinePurchaseCategory(item)}
                       aria-label={`next purchase is ${determinePurchaseCategory(
@@ -169,11 +182,14 @@ export default function List() {
                         onChange={(e) => handleCheckBox(e, item)}
                         checked={wasPurchasedWithin24Hours(item)}
                         disabled={wasPurchasedWithin24Hours(item)}
-                      />
-                      <span></span>
+                      />          
                     </label>
                     {item.data().item}
-                  </li>
+                      <button onClick={() => deleteHandler(item)}>
+                        delete
+                      </button>
+                    </li>
+                  </div>
                 );
               })}
           </ul>
