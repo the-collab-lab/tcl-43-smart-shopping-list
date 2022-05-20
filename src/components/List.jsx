@@ -168,23 +168,23 @@ export default function List() {
               .map((item, index) => {
                 return (
                   <div>
-                      <li key={index}>
-                    <label
-                      className={determinePurchaseCategory(item)}
-                      aria-label={`next purchase is ${determinePurchaseCategory(
-                        item,
-                      )}`}
-                    >
-                      <input
-                        aria-label="checkbox for purchased item"
-                        id={item.data().id}
-                        type="checkbox"
-                        onChange={(e) => handleCheckBox(e, item)}
-                        checked={wasPurchasedWithin24Hours(item)}
-                        disabled={wasPurchasedWithin24Hours(item)}
-                      />          
-                    </label>
-                    {item.data().item}
+                    <li key={index}>
+                      <label
+                        className={determinePurchaseCategory(item)}
+                        aria-label={`next purchase is ${determinePurchaseCategory(
+                          item,
+                        )}`}
+                      >
+                        <input
+                          aria-label="checkbox for purchased item"
+                          id={item.data().id}
+                          type="checkbox"
+                          onChange={(e) => checkboxHandler(e, item)}
+                          checked={wasPurchasedWithin24Hours(item)}
+                          disabled={wasPurchasedWithin24Hours(item)}
+                        />
+                      </label>
+                      {item.data().item}
                       <button onClick={() => deleteHandler(item)}>
                         delete
                       </button>
