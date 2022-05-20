@@ -5,6 +5,8 @@ import {
   Timestamp,
   doc,
   updateDoc,
+  query,
+  orderBy,
   deleteDoc,
 } from 'firebase/firestore';
 import { db } from '../lib/firebase';
@@ -25,16 +27,9 @@ export default function List() {
 
     const docItem = doc(db, userToken, item.id);
     let now = Timestamp.now().seconds;
-    const lastPurchase = item.data().lastPurchaseDate;
-    const itemCreated = item.data().dateItemAdded;
     const totalPurchases = item.data().totalPurchases + 1;
 
-    let daysSinceLastTransaction;
-    if (lastPurchase === null) {
-      daysSinceLastTransaction = Math.round((now - itemCreated) / 86400);
-    } else {
-      daysSinceLastTransaction = Math.round((now - lastPurchase) / 86400);
-    }
+    const daysSinceLastTransaction = daysSinceLastPurchase(item);
 
     const estimatedPurchaseInterval = calculateEstimate(
       item.data().estimatedPurchaseInterval,
@@ -57,11 +52,66 @@ export default function List() {
     return difference < secondsInDay;
   };
 
+  const daysSinceLastPurchase = (item) => {
+    let now = Timestamp.now().seconds;
+    const lastPurchase = item.data().lastPurchaseDate;
+    const itemCreated = item.data().dateItemAdded;
+
+    if (!lastPurchase) {
+      return Math.round((now - itemCreated) / 86400);
+    }
+    return Math.round((now - lastPurchase) / 86400);
+  };
+
+  const daysUntilNextPurchase = (item) => {
+    return item.data().estimatedPurchaseInterval - daysSinceLastPurchase(item);
+  };
+
+  const isActive = (item) => {
+    return (
+      !wasPurchasedWithin24Hours(item) &&
+      item.data().totalPurchases > 0 &&
+      daysSinceLastPurchase(item) < item.data().estimatedPurchaseInterval * 2
+    );
+  };
+
+  const determinePurchaseCategory = (item) => {
+    if (!isActive(item)) {
+      return 'inactive';
+    }
+
+    if (daysUntilNextPurchase(item) < 7) {
+      return 'soon';
+    } else if (daysUntilNextPurchase(item) <= 30) {
+      return 'kinda-soon';
+    } else {
+      return 'not-soon';
+    }
+  };
+
+  const sortList = (docs) => {
+    docs.sort(function (a, b) {
+      if ((isActive(a) && isActive(b)) || (!isActive(a) && !isActive(b))) {
+        return daysUntilNextPurchase(a) - daysUntilNextPurchase(b);
+      }
+
+      if (isActive(a)) {
+        return -1;
+      } else {
+        return 1;
+      }
+    });
+    return docs;
+  };
+
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, userToken), (snapshot) => {
+    const listRef = collection(db, userToken);
+    const q = query(listRef, orderBy('item'));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
       let snapshotDocs = [];
+
       snapshot.forEach((doc) => snapshotDocs.push(doc));
-      setDocs(snapshotDocs);
+      setDocs(sortList(snapshotDocs));
     });
     return () => {
       unsubscribe();
@@ -114,25 +164,32 @@ export default function List() {
                   .item.toLowerCase()
                   .includes(searchInputValue.toLowerCase());
               })
+
               .map((item, index) => {
                 return (
-                  <>
+                  <div>
                     <li key={index}>
-                      <input
-                        aria-label="checkbox for purchased item"
-                        id={item.data().id}
-                        type="checkbox"
-                        onChange={(e) => checkboxHandler(e, item)}
-                        checked={wasPurchasedWithin24Hours(item)}
-                        disabled={wasPurchasedWithin24Hours(item)}
-                      />
+                      <label
+                        className={determinePurchaseCategory(item)}
+                        aria-label={`next purchase is ${determinePurchaseCategory(
+                          item,
+                        )}`}
+                      >
+                        <input
+                          aria-label="checkbox for purchased item"
+                          id={item.data().id}
+                          type="checkbox"
+                          onChange={(e) => checkboxHandler(e, item)}
+                          checked={wasPurchasedWithin24Hours(item)}
+                          disabled={wasPurchasedWithin24Hours(item)}
+                        />
+                      </label>
                       {item.data().item}
-
                       <button onClick={() => deleteHandler(item)}>
                         delete
                       </button>
                     </li>
-                  </>
+                  </div>
                 );
               })}
           </ul>
