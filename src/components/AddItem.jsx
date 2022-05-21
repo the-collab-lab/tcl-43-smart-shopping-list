@@ -41,7 +41,7 @@ export default function AddItem() {
 
     try {
       if (cleanList.includes(cleanItemName)) {
-        setMessage(`${cleanItemName} already included in the list.`);
+        setMessage(`${cleanItemName} is already included in the list.`);
         throw Error(`${cleanItemName} is already included in the list.`);
       }
       const docRef = await addDoc(collection(db, userToken), {
@@ -53,7 +53,7 @@ export default function AddItem() {
         totalPurchases: 0,
       });
       console.log(docRef.id);
-      setMessage(`${itemName} added to the list successfuly.`);
+      setMessage(`${itemName} added to the list successfully.`);
     } catch (e) {
       console.error(e);
     }
