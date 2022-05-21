@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { collection, addDoc, Timestamp } from 'firebase/firestore';
 import { db } from '../lib/firebase';
-import { getUser } from '../storage-utils/storage-utils';
+import { getUser } from '../utils/utils';
 import Nav from './Nav';
 import { onSnapshot } from 'firebase/firestore';
 

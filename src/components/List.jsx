@@ -1,16 +1,11 @@
 import { useState, useEffect } from 'react';
-import {
-  collection,
-  onSnapshot,
-  Timestamp,
-  query,
-  orderBy,
-} from 'firebase/firestore';
+import { collection, onSnapshot, query, orderBy } from 'firebase/firestore';
 import { db } from '../lib/firebase';
-import { getUser } from '../storage-utils/storage-utils';
+import { getUser } from '../utils/utils';
 import Nav from './Nav';
 import { useNavigate } from 'react-router-dom';
 import ListItem from './ListItem';
+import { daysUntilNextPurchase, isActive } from '../utils/utils';
 
 export default function List() {
   //states:
@@ -18,37 +13,6 @@ export default function List() {
   const [userToken] = useState(getUser());
   const navigate = useNavigate();
   const [searchInputValue, setSearchInputValue] = useState('');
-
-  const wasPurchasedWithin24Hours = (item) => {
-    let now = Timestamp.now().seconds;
-    let itemPurchaseDate = item.data().lastPurchaseDate;
-    let difference = now - itemPurchaseDate;
-    const secondsInDay = 86400;
-    return difference < secondsInDay;
-  };
-
-  const daysSinceLastPurchase = (item) => {
-    let now = Timestamp.now().seconds;
-    const lastPurchase = item.data().lastPurchaseDate;
-    const itemCreated = item.data().dateItemAdded;
-
-    if (!lastPurchase) {
-      return Math.round((now - itemCreated) / 86400);
-    }
-    return Math.round((now - lastPurchase) / 86400);
-  };
-
-  const daysUntilNextPurchase = (item) => {
-    return item.data().estimatedPurchaseInterval - daysSinceLastPurchase(item);
-  };
-
-  const isActive = (item) => {
-    return (
-      !wasPurchasedWithin24Hours(item) &&
-      item.data().totalPurchases > 0 &&
-      daysSinceLastPurchase(item) < item.data().estimatedPurchaseInterval * 2
-    );
-  };
 
   const sortList = (docs) => {
     docs.sort(function (a, b) {
@@ -58,9 +22,8 @@ export default function List() {
 
       if (isActive(a)) {
         return -1;
-      } else {
-        return 1;
       }
+      return 1;
     });
     return docs;
   };
