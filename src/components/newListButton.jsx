@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { generateToken } from '@the-collab-lab/shopping-list-utils';
-import { setUser, getUser } from '../storage-utils/storage-utils';
+import { setUser, getUser } from '../utils/utils';
 
 const NewListButton = () => {
   const [userToken, setUserToken] = useState(getUser());
