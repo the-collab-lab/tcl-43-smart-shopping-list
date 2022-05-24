@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 export default function Nav() {
   return (
-    <nav className="link-div">
+    <nav className="link-div nav justify-content-center">
       <NavLink
         to="/list"
         style={({ isActive }) =>
