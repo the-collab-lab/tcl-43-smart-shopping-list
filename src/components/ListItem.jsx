@@ -67,6 +67,7 @@ export default function ListItem({ item, index }) {
           aria-label={`next purchase is ${determinePurchaseCategory(item)}`}
         >
           <input
+            className="search-input"
             aria-label="checkbox for purchased item"
             id={item.data().id}
             type="checkbox"
@@ -76,7 +77,10 @@ export default function ListItem({ item, index }) {
           />
         </label>
         {item.data().item}
-        <button onClick={() => deleteHandler(item)}>delete</button>
+        {/* <button onClick={() => deleteHandler(item)}>delete</button> */}
+        <button id="delete-button" onClick={() => deleteHandler(item)}>
+          <img className="delete-image" src={'./img/x.png'} alt="delete" />
+        </button>
       </li>
     </div>
   );

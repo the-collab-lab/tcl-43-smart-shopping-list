@@ -40,6 +40,7 @@ export default function JoinExistingList() {
       >
         <label htmlFor="user token">Share Token</label>
         <input
+          className="search-input"
           type="text"
           id="user token"
           onChange={(e) => setUserToken(e.target.value)}

@@ -3,11 +3,11 @@ import { NavLink } from 'react-router-dom';
 
 export default function Nav() {
   return (
-    <nav className="link-div nav justify-content-center">
+    <nav className="link-div">
       <NavLink
         to="/list"
         style={({ isActive }) =>
-          isActive ? { fontWeight: 'bold' } : { fontWeight: 'normal' }
+          isActive ? { color: '#20a39e' } : { color: 'black' }
         }
       >
         Shopping List
@@ -16,7 +16,7 @@ export default function Nav() {
       <NavLink
         to="/addItem"
         style={({ isActive }) =>
-          isActive ? { fontWeight: 'bold' } : { fontWeight: 'normal' }
+          isActive ? { color: '#20a39e' } : { color: 'black' }
         }
       >
         Add Item

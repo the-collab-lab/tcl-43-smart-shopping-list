@@ -67,6 +67,7 @@ export default function AddItem() {
       <form onSubmit={submitHandler}>
         <label htmlFor="item-name">Item name:</label>
         <input
+          className="search-input"
           required
           id="item-name"
           type="text"

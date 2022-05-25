@@ -59,6 +59,7 @@ export default function List() {
       ) : (
         <div>
           <input
+            className="search-input"
             type="text"
             placeholder="Search..."
             value={searchInputValue}
@@ -67,7 +68,12 @@ export default function List() {
             }}
           />
 
-          <button onClick={() => setSearchInputValue(() => '')}>Reset</button>
+          <button
+            className="reset-button"
+            onClick={() => setSearchInputValue(() => '')}
+          >
+            Reset
+          </button>
 
           <ul>
             {docs
