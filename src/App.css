@@ -15,4 +15,9 @@ button {
   background-color: #ffba49;
   padding: 8px;
   font-weight: bold;
+  border-style: solid;
+}
+
+input {
+  border-style: solid;
 }
