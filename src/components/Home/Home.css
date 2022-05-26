@@ -1,0 +1,13 @@
+.home-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.home-container h1 {
+  font-family: 'Bangers', cursive;
+  font-size: 60px;
+  color: #20a39e;
+}

@@ -1,0 +1,8 @@
+fieldset {
+  width: 500px;
+  height: 100px;
+  border: 1px solid blue;
+  justify-content: center;
+  align-items: center;
+  padding: 50px;
+}

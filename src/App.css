@@ -1,4 +1,4 @@
-/* -------------- GLOBAL ---------------- Mobile */
+/* -------------- GLOBAL ---------------- */
 * {
   font-family: 'Nunito Sans', sans-serif;
   font-size: 25px;
@@ -6,20 +6,6 @@
 
 .App {
   text-align: center;
-}
-
-.home-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  min-height: 100vh;
-  /* background-color: lightblue;  */
-}
-.home-container h1 {
-  font-family: 'Bangers', cursive;
-  font-size: 60px;
-  color: #20a39e;
 }
 
 button {
@@ -30,77 +16,3 @@ button {
   padding: 8px;
   font-weight: bold;
 }
-
-.nav-button {
-  border-radius: 3em;
-  border-color: #ef5b5b;
-  color: #111010;
-  padding: 8px;
-  font-weight: bold;
-}
-/*NavLink returns a standard <a> tag! so use <a> for styling*/
-a {
-  font-size: 25px;
-  cursor: pointer;
-  margin: 0 15px;
-  font-weight: bold;
-}
-nav {
-  position: fixed;
-  bottom: 25px;
-  width: 100%;
-  padding: 8px;
-}
-.title {
-  font-size: 23px;
-  font-weight: bold;
-}
-.soon {
-  background-color: green;
-}
-.kinda-soon {
-  background-color: blue;
-}
-.not-soon {
-  background-color: purple;
-}
-.inactive {
-  background-color: gray;
-}
-
-ul {
-  list-style-type: none;
-}
-
-.reset-button {
-  margin-left: 10px;
-  width: 150px;
-}
-
-.search-input {
-  margin: 0 5px 0 5px;
-  border-radius: 3em;
-  height: 45px;
-  padding-left: 5px;
-}
-
-fieldset {
-  width: 500px;
-  height: 100px;
-  border: 1px solid blue;
-  justify-content: center;
-  align-items: center;
-  padding: 50px;
-}
-
-.delete-image {
-  width: 20px;
-  height: auto;
-}
-#delete-button {
-  border-radius: 15px;
-  background-color: #e15d5d;
-}
-/* ---------------- Tablet ------------------ */
-
-/* ---------------- Desktop ------------------ */
