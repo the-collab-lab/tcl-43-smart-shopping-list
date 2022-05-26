@@ -1,14 +1,15 @@
 import { useState } from 'react';
 import { Timestamp, doc, updateDoc, deleteDoc } from 'firebase/firestore';
-import { db } from '../lib/firebase';
-import { getUser } from '../utils/utils';
+import { db } from '../../lib/firebase';
+import { getUser } from '../../utils/utils';
 import { calculateEstimate } from '@the-collab-lab/shopping-list-utils';
 import {
   wasPurchasedWithin24Hours,
   daysSinceLastPurchase,
   daysUntilNextPurchase,
   isActive,
-} from '../utils/utils';
+} from '../../utils/utils';
+import './ListItem.css';
 
 export default function ListItem({ item, index }) {
   const [userToken] = useState(getUser());

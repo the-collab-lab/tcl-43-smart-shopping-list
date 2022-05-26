@@ -1,9 +1,9 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Home from './components/Home.jsx';
-import List from './components/List.jsx';
-import AddItem from './components/AddItem.jsx';
+import Home from './components/Home/Home';
+import List from './components/List/List.jsx';
+import AddItem from './components/AddItem/AddItem.jsx';
 import { getUser } from './utils/utils';
 
 function App() {

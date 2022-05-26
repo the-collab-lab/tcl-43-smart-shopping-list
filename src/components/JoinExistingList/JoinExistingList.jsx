@@ -1,8 +1,9 @@
-import { db } from '../lib/firebase';
+import { db } from '../../lib/firebase';
 import { collection, onSnapshot } from '@firebase/firestore';
 import { useState, useEffect } from 'react';
-import { setUser } from '../utils/utils';
+import { setUser } from '../../utils/utils';
 import { useNavigate } from 'react-router-dom';
+import './JoinExistingList.css';
 
 export default function JoinExistingList() {
   const [userToken, setUserToken] = useState('');
@@ -46,7 +47,7 @@ export default function JoinExistingList() {
           onChange={(e) => setUserToken(e.target.value)}
           value={userToken}
         />
-        <button>join an existing list</button>
+        <button>Join An Existing List</button>
       </form>
     </div>
   );

@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { collection, addDoc, Timestamp } from 'firebase/firestore';
-import { db } from '../lib/firebase';
-import { getUser } from '../utils/utils';
-import Nav from './Nav';
+import { db } from '../../lib/firebase';
+import { getUser } from '../../utils/utils';
+import Nav from '../Nav/Nav';
 import { onSnapshot } from 'firebase/firestore';
+import './AddItem.css';
 
 export default function AddItem() {
   const [userToken] = useState(getUser());

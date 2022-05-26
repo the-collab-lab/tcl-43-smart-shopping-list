@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { generateToken } from '@the-collab-lab/shopping-list-utils';
-import { setUser, getUser } from '../utils/utils';
+import { setUser, getUser } from '../../utils/utils';
+import './NewListButton.css';
 
 const NewListButton = () => {
   const [userToken, setUserToken] = useState(getUser());
@@ -17,7 +18,7 @@ const NewListButton = () => {
   return (
     <Link to="/List" onClick={onClick}>
       <button type="button" className="NewList-button">
-        create a new list
+        Create A New List
       </button>
     </Link>
   );

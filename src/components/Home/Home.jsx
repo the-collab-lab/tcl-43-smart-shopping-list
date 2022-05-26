@@ -1,8 +1,8 @@
-import JoinExistingList from './JoinExistingList.jsx';
-import NewListButton from './newListButton.jsx';
+import JoinExistingList from '../JoinExistingList/JoinExistingList';
+import NewListButton from '../NewListButton/NewListButton';
+import './Home.css';
 
-// Added Home container for landing page - check in App.css
-// Image
+// TO DO: Image?
 export default function Home() {
   return (
     <>

@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { collection, onSnapshot, query, orderBy } from 'firebase/firestore';
-import { db } from '../lib/firebase';
-import { getUser } from '../utils/utils';
-import Nav from './Nav';
+import { db } from '../../lib/firebase';
+import { getUser } from '../../utils/utils';
+import Nav from '../Nav/Nav';
 import { useNavigate } from 'react-router-dom';
-import ListItem from './ListItem';
-import { daysUntilNextPurchase, isActive } from '../utils/utils';
+import ListItem from '../ListItem/ListItem';
+import { daysUntilNextPurchase, isActive } from '../../utils/utils';
+import './List.css';
 
 export default function List() {
   //states:
