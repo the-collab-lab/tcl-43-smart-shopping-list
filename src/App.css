@@ -9,13 +9,18 @@
 }
 
 button {
+  border: #ef5b5b solid 3px;
   border-radius: 3em;
-  border-color: #ef5b5b;
   color: #111010;
   background-color: #ffba49;
   padding: 8px;
   font-weight: bold;
-  border-style: solid;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #ef5b5b;
+  border: #ffba49 3px solid;
 }
 
 input {

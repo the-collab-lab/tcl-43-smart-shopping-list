@@ -4,11 +4,17 @@ a {
   cursor: pointer;
   margin: 0 15px;
   font-weight: bold;
+  text-decoration: none;
 }
 
 nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: fixed;
-  bottom: 25px;
+  bottom: 0;
   width: 100%;
   padding: 8px;
+  background-color: #23001e;
+  height: 2.6em;
 }
