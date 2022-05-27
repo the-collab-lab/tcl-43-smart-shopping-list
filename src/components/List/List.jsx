@@ -44,7 +44,7 @@ export default function List() {
   }, [userToken]);
 
   return (
-    <>
+    <div className="list-container">
       <h1>Shopping List</h1>
       {docs.length === 0 ? (
         <div>
@@ -60,7 +60,7 @@ export default function List() {
       ) : (
         <div>
           <input
-            className="search-input"
+            className="search-input search-style"
             type="text"
             placeholder="Search..."
             value={searchInputValue}
@@ -73,7 +73,7 @@ export default function List() {
             className="reset-button"
             onClick={() => setSearchInputValue(() => '')}
           >
-            Reset
+            Clear Search
           </button>
 
           <ul>
@@ -92,6 +92,6 @@ export default function List() {
         </div>
       )}
       <Nav />
-    </>
+    </div>
   );
 }

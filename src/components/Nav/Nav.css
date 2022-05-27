@@ -13,6 +13,7 @@ nav {
   align-items: center;
   position: fixed;
   bottom: 0;
+  left: 0;
   width: 100%;
   padding: 8px;
   background-color: #23001e;

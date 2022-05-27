@@ -6,10 +6,15 @@
 
 .App {
   text-align: center;
+  margin: 10%;
+  background: white;
+  border: 3px solid black;
+  min-height: 24em;
+  height: auto;
 }
 
 button {
-  border: #ef5b5b solid 3px;
+  border: #20a39e solid 3px;
   border-radius: 3em;
   color: #111010;
   background-color: #ffba49;
@@ -20,9 +25,15 @@ button {
 
 button:hover {
   background-color: #ef5b5b;
-  border: #ffba49 3px solid;
 }
 
 input {
   border-style: solid;
+}
+h1 {
+  font-family: 'Bangers', cursive;
+  font-size: 1.5em;
+  margin-top: -2em;
+  color: #20a39e;
+  border: 1px solid green;
 }

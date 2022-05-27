@@ -25,8 +25,10 @@ export default function JoinExistingList() {
   }, [userToken]);
 
   return (
-    <div>
-      <p>Join an existing list by entering a three word token below.</p>
+    <div className="join-container">
+      <p className="join-p">
+        Join an existing list by entering a three word token below.
+      </p>
 
       <form
         onSubmit={() => {
@@ -47,7 +49,7 @@ export default function JoinExistingList() {
           onChange={(e) => setUserToken(e.target.value)}
           value={userToken}
         />
-        <button>Join An Existing List</button>
+        <button className="join-btn">Join An Existing List</button>
       </form>
     </div>
   );

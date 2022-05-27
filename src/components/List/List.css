@@ -1,6 +1,14 @@
+.list-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  margin-top: 3.8em;
+}
 .reset-button {
-  margin-left: 10px;
+  margin: 10px auto;
   width: 150px;
+  font-size: 0.5em;
 }
 
 .search-input {
@@ -9,6 +17,9 @@
   height: 45px;
   padding-left: 5px;
 }
+.search-style {
+  width: 8em;
+}
 
 ul {
   list-style-type: none;
@@ -16,27 +27,17 @@ ul {
 }
 
 .soon {
-  background-color: green;
+  background-color: #20a39e;
 }
 
 .kinda-soon {
-  background-color: blue;
+  background-color: #ffba49;
 }
 
 .not-soon {
-  background-color: purple;
+  background-color: #ef5b5b;
 }
 
 .inactive {
-  background-color: gray;
-}
-
-.delete-image {
-  width: 20px;
-  height: auto;
-}
-
-#delete-button {
-  border-radius: 15px;
-  background-color: #e15d5d;
+  background-color: #a4a9ad;
 }

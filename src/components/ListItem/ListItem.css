@@ -1,0 +1,9 @@
+.delete-image {
+  width: 20px;
+  height: auto;
+}
+
+#delete-button {
+  border-radius: 15px;
+  background-color: #e15d5d;
+}
