@@ -1,5 +1,5 @@
 /* -------------- GLOBAL ---------------- */
-* {
+/* * {
   font-family: 'Nunito Sans', sans-serif;
   font-size: 25px;
 }
@@ -38,4 +38,59 @@ h1 {
   font-size: 2em;
   margin-top: -1.8em;
   color: #20a39e;
+} */
+
+/* -------------- GLOBAL ---------------- */
+
+* {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 25px;
+}
+.App {
+  border-radius: 12px;
+  text-align: center;
+  margin: 3%;
+  background: white;
+  border: 3px solid black;
+  min-height: 22em;
+  height: auto;
+  margin-bottom: 4em;
+}
+button {
+  border: #20a39e solid 3px;
+  border-radius: 3em;
+  color: #111010;
+  background-color: #ffba49;
+  padding: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+button:hover {
+  background-color: #ef5b5b;
+}
+input {
+  border-style: solid;
+}
+h1 {
+  font-family: 'Bangers', cursive;
+  font-size: 2em;
+  margin-top: -1.8em;
+  color: #20a39e;
+}
+@media only screen and (max-width: 320px) {
+  h1 {
+    font-size: 1.5em;
+  }
+}
+@media only screen and (max-width: 280px) {
+  .App {
+    width: 256px;
+    margin: 3% auto;
+  }
+}
+@media only screen and (min-width: 575px) {
+  .App {
+    width: 535px;
+    margin: 3% auto;
+  }
 }

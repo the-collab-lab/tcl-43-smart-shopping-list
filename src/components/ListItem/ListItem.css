@@ -1,4 +1,4 @@
-.delete-image {
+/* .delete-image {
   width: 15px;
   height: 15px;
   position: relative;
@@ -33,11 +33,165 @@ li {
   -ms-user-select: none;
   user-select: none;
 }
-/*style checkbox on mouseover*/
+style checkbox on mouseover
 .soon:hover .checkbox ~ .checkmark {
   background-color: #6aaaa7;
 }
 
+.kinda-soon {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+style checkbox on mouseover
+.kinda-soon:hover .checkbox ~ .checkmark {
+  background-color: #fbcc80;
+}
+.not-soon {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+style checkbox on mouseover
+.not-soon:hover .checkbox ~ .checkmark {
+  background-color: #e68383;
+}
+.inactive {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+hide the default checkbox
+.checkbox {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+create a custom checkbox
+.soon .checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #20a39e;
+}
+.kinda-soon .checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #ffba49;
+}
+.not-soon .checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #ef5b5b;
+}
+.inactive .checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #a4a9ad;
+}
+
+add grey background when checked
+.checkbox:checked ~ .checkmark {
+  background-color: #a4a9ad;
+}
+.checkmark:after {
+  content: '';
+  position: absolute;
+  display: none;
+}
+.checkbox:checked ~ .checkmark:after {
+  display: block;
+}
+create the checkmark- hidden by default
+.checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+} */
+
+.delete-image {
+  width: 15px;
+  height: 15px;
+  position: relative;
+  bottom: 17px;
+  right: 6px;
+}
+#delete-button {
+  border-radius: 5px;
+  background-color: #e15d5d;
+  height: 25px;
+  width: 25px;
+}
+.search-input {
+  margin: 0 5px 0 5px;
+  border-radius: 3em;
+  height: 45px;
+  padding-left: 5px;
+}
+li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+  margin: 10px auto;
+  width: 75%;
+}
+.soon {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+/*style checkbox on mouseover*/
+.soon:hover .checkbox ~ .checkmark {
+  background-color: #6aaaa7;
+}
 .kinda-soon {
   display: block;
   position: relative;
@@ -123,13 +277,12 @@ li {
   width: 25px;
   background-color: #a4a9ad;
 }
-
 /*add grey background when checked*/
 .checkbox:checked ~ .checkmark {
   background-color: #a4a9ad;
 }
 .checkmark:after {
-  content: '';
+  content: ‘’;
   position: absolute;
   display: none;
 }
