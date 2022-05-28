@@ -68,7 +68,7 @@ export default function ListItem({ item, index }) {
           aria-label={`next purchase is ${determinePurchaseCategory(item)}`}
         >
           <input
-            className="search-input"
+            className="search-input checkbox"
             aria-label="checkbox for purchased item"
             id={item.data().id}
             type="checkbox"
@@ -76,6 +76,7 @@ export default function ListItem({ item, index }) {
             checked={wasPurchasedWithin24Hours(item)}
             disabled={wasPurchasedWithin24Hours(item)}
           />
+          <span className="checkmark"></span>
         </label>
         {item.data().item}
         {/* <button onClick={() => deleteHandler(item)}>delete</button> */}

@@ -6,20 +6,7 @@
   margin-top: 3.8em;
 }
 
-/* fieldset {
-  /* width: 500px; */
-/* height: 100px;  */
-/* display: flex; */
-/* flex-direction: column; */
-/* justify-content: center; */
-/* border: 1px solid #20a39e; */
-/* border-bottom: none; */
-/* align-items: center; */
-/* margin-top: 10px; 
-}*/
-
 .frequency {
-  /* border: 2px solid black; */
   margin: 8px 0;
   display: flex;
   flex-direction: column;
@@ -39,5 +26,4 @@ p {
 
 .add-item-button {
   margin-top: 20px;
-  /* margin-bottom: -15px; */
 }

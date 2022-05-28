@@ -46,18 +46,7 @@ export default function List() {
   return (
     <div className="list-container">
       <h1>Shopping List</h1>
-      {docs.length === 0 ? (
-        <div>
-          <p>Your shopping list is currently empty</p>
-          <button
-            onClick={() => {
-              navigate('/addItem');
-            }}
-          >
-            Add Item
-          </button>
-        </div>
-      ) : (
+      {docs.length > 0 ? (
         <div>
           <input
             className="search-input search-style"
@@ -89,6 +78,17 @@ export default function List() {
                 return <ListItem item={item} index={index} />;
               })}
           </ul>
+        </div>
+      ) : (
+        <div>
+          <p>Your shopping list is currently empty</p>
+          <button
+            onClick={() => {
+              navigate('/addItem');
+            }}
+          >
+            Add Item
+          </button>
         </div>
       )}
       <Nav />

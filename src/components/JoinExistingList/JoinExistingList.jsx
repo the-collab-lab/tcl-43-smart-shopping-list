@@ -35,10 +35,11 @@ export default function JoinExistingList() {
           if (docs.length > 0) {
             setUser(userToken);
             navigate('list');
+          } else {
+            alert(
+              'That list does not exist. Please try again or create a new list.',
+            );
           }
-          alert(
-            'That list does not exist. Please try again or create a new list.',
-          );
         }}
       >
         {/* <label htmlFor="user token">Share Token</label> */}
