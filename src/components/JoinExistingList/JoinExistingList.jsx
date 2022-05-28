@@ -41,8 +41,9 @@ export default function JoinExistingList() {
           );
         }}
       >
-        <label htmlFor="user token">Share Token</label>
+        {/* <label htmlFor="user token">Share Token</label> */}
         <input
+          placeholder=" Enter Token..."
           className="search-input"
           type="text"
           id="user token"

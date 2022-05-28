@@ -1,8 +1,43 @@
-fieldset {
-  width: 500px;
-  height: 100px;
-  border: 1px solid blue;
+.item-container {
+  display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-content: center;
+  margin-top: 3.8em;
+}
+
+/* fieldset {
+  /* width: 500px; */
+/* height: 100px;  */
+/* display: flex; */
+/* flex-direction: column; */
+/* justify-content: center; */
+/* border: 1px solid #20a39e; */
+/* border-bottom: none; */
+/* align-items: center; */
+/* margin-top: 10px; 
+}*/
+
+.frequency {
+  /* border: 2px solid black; */
+  margin: 8px 0;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  padding: 50px;
+}
+
+.add-item-p-tag {
+  font-size: 20px;
+  color: #23001e;
+}
+
+p {
+  color: red;
+  font-size: 0.75em;
+  padding: 0 1em 0 1em;
+}
+
+.add-item-button {
+  margin-top: 20px;
+  /* margin-bottom: -15px; */
 }

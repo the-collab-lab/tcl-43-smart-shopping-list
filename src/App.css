@@ -5,12 +5,14 @@
 }
 
 .App {
+  border-radius: 3.5%;
   text-align: center;
-  margin: 10%;
+  margin: 3%;
   background: white;
   border: 3px solid black;
-  min-height: 24em;
+  min-height: 22em;
   height: auto;
+  margin-bottom: 4em;
 }
 
 button {
@@ -30,10 +32,11 @@ button:hover {
 input {
   border-style: solid;
 }
+
 h1 {
   font-family: 'Bangers', cursive;
-  font-size: 1.5em;
-  margin-top: -2em;
+  font-size: 2em;
+  margin-top: -1.8em;
   color: #20a39e;
-  border: 1px solid green;
+  /* border: 1px solid green; */
 }

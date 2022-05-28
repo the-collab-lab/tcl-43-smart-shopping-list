@@ -7,3 +7,11 @@
   border-radius: 15px;
   background-color: #e15d5d;
 }
+
+li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px 0 10px;
+  margin: 10px 0 10px 0;
+}

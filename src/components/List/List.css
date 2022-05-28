@@ -5,6 +5,7 @@
   align-content: center;
   margin-top: 3.8em;
 }
+
 .reset-button {
   margin: 10px auto;
   width: 150px;
@@ -23,7 +24,8 @@
 
 ul {
   list-style-type: none;
-  margin-bottom: 4em;
+  /* margin-bottom: 4em; */
+  padding: 0;
 }
 
 .soon {
