@@ -14,6 +14,7 @@ export default function List() {
   const [userToken] = useState(getUser());
   const navigate = useNavigate();
   const [searchInputValue, setSearchInputValue] = useState('');
+
   const sortList = (docs) => {
     docs.sort(function (a, b) {
       if ((isActive(a) && isActive(b)) || (!isActive(a) && !isActive(b))) {
@@ -26,6 +27,7 @@ export default function List() {
     });
     return docs;
   };
+
   useEffect(() => {
     const listRef = collection(db, userToken);
     const q = query(listRef, orderBy('item'));
@@ -38,6 +40,7 @@ export default function List() {
       unsubscribe();
     };
   }, [userToken]);
+
   return (
     <div className="list-container">
       <h1>Shopping List</h1>

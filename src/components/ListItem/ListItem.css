@@ -282,7 +282,7 @@ li {
   background-color: #a4a9ad;
 }
 .checkmark:after {
-  content: ‘’;
+  content: '';
   position: absolute;
   display: none;
 }
