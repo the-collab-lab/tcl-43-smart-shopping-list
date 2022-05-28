@@ -46,6 +46,14 @@ export default function List() {
   return (
     <div className="list-container">
       <h1>Shopping List</h1>
+      <div>
+        <img
+          className="grocery-image"
+          src={'./img/groceries@180.png'}
+          width="40%"
+          alt="groceries"
+        />
+      </div>
       {docs.length > 0 ? (
         <div>
           <input
