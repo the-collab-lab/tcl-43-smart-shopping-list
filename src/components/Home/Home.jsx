@@ -2,7 +2,6 @@ import JoinExistingList from '../JoinExistingList/JoinExistingList';
 import NewListButton from '../NewListButton/NewListButton';
 import './Home.css';
 
-// TO DO: Image?
 export default function Home() {
   return (
     <div className="home-container">

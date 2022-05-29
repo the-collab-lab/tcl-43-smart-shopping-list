@@ -16,19 +16,15 @@ export default function ListItem({ item, index }) {
 
   const checkboxHandler = (e, item) => {
     e.preventDefault();
-
     const docItem = doc(db, userToken, item.id);
     let now = Timestamp.now().seconds;
     const totalPurchases = item.data().totalPurchases + 1;
-
     const daysSinceLastTransaction = daysSinceLastPurchase(item);
-
     const estimatedPurchaseInterval = calculateEstimate(
       item.data().estimatedPurchaseInterval,
       daysSinceLastTransaction,
       totalPurchases,
     );
-
     updateDoc(docItem, {
       lastPurchaseDate: now,
       totalPurchases: totalPurchases,
@@ -37,10 +33,12 @@ export default function ListItem({ item, index }) {
   };
 
   const determinePurchaseCategory = (item) => {
+    if (item.data().totalPurchases === 0) {
+      return 'soon';
+    }
     if (!isActive(item)) {
       return 'inactive';
     }
-
     if (daysUntilNextPurchase(item) < 7) {
       return 'soon';
     } else if (daysUntilNextPurchase(item) <= 30) {
@@ -51,7 +49,7 @@ export default function ListItem({ item, index }) {
 
   const deleteHandler = (item) => {
     const deletionConfirmation = window.confirm(
-      `Are you sure you'd like to delete ${
+      `Are you sure you’d like to delete ${
         item.data().item
       } from your shopping list?`,
     );
