@@ -1,0 +1,35 @@
+/* .join-p {
+  font-size: 0.8em;
+  margin-bottom: 10px;
+  margin-top: 2.5em;
+  color: #23001e;
+  font-weight: 600;
+}
+.join-container {
+  position: relative;
+}
+
+.join-btn {
+  margin-top: 16px;
+} */
+.join-p {
+  font-size: 0.8em;
+  margin-bottom: 10px;
+  margin-top: 2.5em;
+  color: #23001e;
+  font-weight: 600;
+}
+
+.join-container {
+  position: relative;
+}
+
+.join-btn {
+  margin-top: 16px;
+}
+
+@media only screen and (max-width: 320px) {
+  .join-input {
+    width: 9em;
+  }
+}

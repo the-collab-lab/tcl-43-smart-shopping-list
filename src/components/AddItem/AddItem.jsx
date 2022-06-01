@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { collection, addDoc, Timestamp } from 'firebase/firestore';
-import { db } from '../lib/firebase';
-import { getUser } from '../utils/utils';
-import Nav from './Nav';
+import { db } from '../../lib/firebase';
+import { getUser } from '../../utils/utils';
+import Nav from '../Nav/Nav';
 import { onSnapshot } from 'firebase/firestore';
+import './AddItem.css';
 
 export default function AddItem() {
   const [userToken] = useState(getUser());
@@ -63,48 +64,63 @@ export default function AddItem() {
 
   return (
     <>
-      <h1>Add Item</h1>
-      <form onSubmit={submitHandler}>
-        <label htmlFor="item-name">Item name:</label>
-        <input
-          required
-          id="item-name"
-          type="text"
-          name="item-name"
-          onChange={(e) => setItemName(e.target.value)}
-          value={itemName}
-        />
-        <fieldset>
-          <legend>How soon will you buy this again?</legend>
+      <div className="item-container">
+        <h1>Add Item</h1>
+        <form onSubmit={submitHandler}>
+          {/* <label htmlFor="item-name">Item name:</label> */}
           <input
-            defaultChecked
-            id="soon"
-            type="radio"
-            name="frequency"
-            value={7}
-            onChange={(e) => setFrequency(e.target.value)}
+            placeholder=" Enter item name..."
+            className="search-input"
+            required
+            id="item-name"
+            type="text"
+            name="item-name"
+            onChange={(e) => setItemName(e.target.value)}
+            value={itemName}
           />
-          <label htmlFor="soon">Soon</label>
-          <input
-            id="kind-of-soon"
-            type="radio"
-            name="frequency"
-            value={14}
-            onChange={(e) => setFrequency(e.target.value)}
-          />
-          <label htmlFor="kind-of-soon">Kind of Soon</label>
-          <input
-            id="not-soon"
-            type="radio"
-            name="frequency"
-            value={30}
-            onChange={(e) => setFrequency(e.target.value)}
-          />
-          <label htmlFor="not-soon">Not Soon</label>
-        </fieldset>
-        <button type="submit">Add Item</button>
-      </form>
-      {message && <p>{message}</p>}
+
+          <p className="add-item-p-tag">How soon will you buy this again?</p>
+
+          <div className="frequency">
+            <label htmlFor="soon">Soon</label>
+            <input
+              defaultChecked
+              id="soon"
+              type="radio"
+              name="frequency"
+              value={7}
+              onChange={(e) => setFrequency(e.target.value)}
+            />
+          </div>
+
+          <div className="frequency">
+            <label htmlFor="kind-of-soon">Kind of Soon</label>
+            <input
+              id="kind-of-soon"
+              type="radio"
+              name="frequency"
+              value={14}
+              onChange={(e) => setFrequency(e.target.value)}
+            />
+          </div>
+
+          <div className="frequency">
+            <label htmlFor="not-soon">Not Soon</label>
+            <input
+              id="not-soon"
+              type="radio"
+              name="frequency"
+              value={30}
+              onChange={(e) => setFrequency(e.target.value)}
+            />
+          </div>
+
+          <button type="submit" className="add-item-button">
+            Add Item
+          </button>
+        </form>
+        {message && <p>{message}</p>}
+      </div>
 
       <Nav />
     </>

@@ -1,33 +1,30 @@
 import { useState } from 'react';
 import { Timestamp, doc, updateDoc, deleteDoc } from 'firebase/firestore';
-import { db } from '../lib/firebase';
-import { getUser } from '../utils/utils';
+import { db } from '../../lib/firebase';
+import { getUser } from '../../utils/utils';
 import { calculateEstimate } from '@the-collab-lab/shopping-list-utils';
 import {
   wasPurchasedWithin24Hours,
   daysSinceLastPurchase,
   daysUntilNextPurchase,
   isActive,
-} from '../utils/utils';
+} from '../../utils/utils';
+import './ListItem.css';
 
 export default function ListItem({ item, index }) {
   const [userToken] = useState(getUser());
 
   const checkboxHandler = (e, item) => {
     e.preventDefault();
-
     const docItem = doc(db, userToken, item.id);
     let now = Timestamp.now().seconds;
     const totalPurchases = item.data().totalPurchases + 1;
-
     const daysSinceLastTransaction = daysSinceLastPurchase(item);
-
     const estimatedPurchaseInterval = calculateEstimate(
       item.data().estimatedPurchaseInterval,
       daysSinceLastTransaction,
       totalPurchases,
     );
-
     updateDoc(docItem, {
       lastPurchaseDate: now,
       totalPurchases: totalPurchases,
@@ -36,10 +33,12 @@ export default function ListItem({ item, index }) {
   };
 
   const determinePurchaseCategory = (item) => {
+    if (item.data().totalPurchases === 0) {
+      return 'soon';
+    }
     if (!isActive(item)) {
       return 'inactive';
     }
-
     if (daysUntilNextPurchase(item) < 7) {
       return 'soon';
     } else if (daysUntilNextPurchase(item) <= 30) {
@@ -50,7 +49,7 @@ export default function ListItem({ item, index }) {
 
   const deleteHandler = (item) => {
     const deletionConfirmation = window.confirm(
-      `Are you sure you'd like to delete ${
+      `Are you sure you’d like to delete ${
         item.data().item
       } from your shopping list?`,
     );
@@ -67,6 +66,7 @@ export default function ListItem({ item, index }) {
           aria-label={`next purchase is ${determinePurchaseCategory(item)}`}
         >
           <input
+            className="search-input checkbox"
             aria-label="checkbox for purchased item"
             id={item.data().id}
             type="checkbox"
@@ -74,9 +74,13 @@ export default function ListItem({ item, index }) {
             checked={wasPurchasedWithin24Hours(item)}
             disabled={wasPurchasedWithin24Hours(item)}
           />
+          <span className="checkmark"></span>
         </label>
         {item.data().item}
-        <button onClick={() => deleteHandler(item)}>delete</button>
+        {/* <button onClick={() => deleteHandler(item)}>delete</button> */}
+        <button id="delete-button" onClick={() => deleteHandler(item)}>
+          <img className="delete-image" src={'./img/x.png'} alt="delete" />
+        </button>
       </li>
     </div>
   );

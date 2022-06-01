@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import './Nav.css';
 
 export default function Nav() {
   return (
@@ -7,7 +8,7 @@ export default function Nav() {
       <NavLink
         to="/list"
         style={({ isActive }) =>
-          isActive ? { fontWeight: 'bold' } : { fontWeight: 'normal' }
+          isActive ? { color: '#20A39E' } : { color: '#A4A9AD' }
         }
       >
         Shopping List
@@ -16,7 +17,7 @@ export default function Nav() {
       <NavLink
         to="/addItem"
         style={({ isActive }) =>
-          isActive ? { fontWeight: 'bold' } : { fontWeight: 'normal' }
+          isActive ? { color: '#20A39E' } : { color: '#A4A9AD' }
         }
       >
         Add Item

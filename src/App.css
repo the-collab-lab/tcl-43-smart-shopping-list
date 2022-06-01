@@ -1,32 +1,62 @@
+/* -------------- GLOBAL ---------------- */
+
+* {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 25px;
+}
+
 .App {
+  flex-grow: 1;
+  border-radius: 12px;
   text-align: center;
+  margin: 3%;
+  background: white;
+  border: 3px solid black;
+  padding-bottom: 0.8em;
+  margin-bottom: 4em;
 }
-/*NavLink returns a standard <a> tag! so use <a> for styling*/
-a {
-  color: black;
-  font-size: 15px;
-  cursor: pointer;
-  margin: 0 15px;
-}
-.link-div {
-  position: fixed;
-  bottom: 25px;
-  width: 100%;
+
+button {
+  border: #20a39e solid 3px;
+  border-radius: 3em;
+  color: #111010;
+  background-color: #ffba49;
   padding: 8px;
-}
-.title {
-  font-size: 23px;
   font-weight: bold;
+  cursor: pointer;
 }
-.soon {
-  background-color: green;
+
+button:hover {
+  background-color: #ef5b5b;
 }
-.kinda-soon {
-  background-color: blue;
+
+input {
+  border-style: solid;
 }
-.not-soon {
-  background-color: purple;
+
+h1 {
+  font-family: 'Bangers', cursive;
+  font-size: 2em;
+  margin-top: -1.8em;
+  color: #20a39e;
 }
-.inactive {
-  background-color: gray;
+
+@media only screen and (max-width: 320px) {
+  h1 {
+    font-size: 1.5em;
+  }
+}
+
+@media only screen and (max-width: 280px) {
+  .App {
+    width: 256px;
+    margin: 3% auto;
+  }
+}
+
+@media only screen and (min-width: 575px) {
+  .App {
+    width: 535px;
+    margin: 3% auto;
+  }
 }
