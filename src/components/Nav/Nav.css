@@ -1,7 +1,6 @@
 /* NOTE: NavLink returns a standard <a> tag! so use the <a> tag for styling this element */
 a {
   font-size: 80%;
-  /* font-size: 25px; */
   cursor: pointer;
   margin: 0 15px;
   font-weight: bold;
