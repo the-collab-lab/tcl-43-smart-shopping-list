@@ -5,23 +5,37 @@ import './Nav.css';
 export default function Nav() {
   return (
     <nav className="link-div">
-      <NavLink
-        to="/list"
-        style={({ isActive }) =>
-          isActive ? { color: '#20A39E' } : { color: '#A4A9AD' }
-        }
-      >
-        Shopping List
-      </NavLink>
+      <div className="nav-links">
+        <NavLink
+          to="/list"
+          style={({ isActive }) =>
+            isActive ? { color: '#20A39E' } : { color: '#A4A9AD' }
+          }
+        >
+          Shopping List
+        </NavLink>
+      </div>
 
-      <NavLink
-        to="/addItem"
-        style={({ isActive }) =>
-          isActive ? { color: '#20A39E' } : { color: '#A4A9AD' }
-        }
-      >
-        Add Item
-      </NavLink>
+      <div className="nav-links">
+        <NavLink
+          to="/addItem"
+          style={({ isActive }) =>
+            isActive ? { color: '#20A39E' } : { color: '#A4A9AD' }
+          }
+        >
+          Add Item
+        </NavLink>
+      </div>
+
+      <div className="nav-links">
+        <NavLink
+          to="/"
+          onClick={() => window.localStorage.clear()}
+          style={{ color: '#A4A9AD' }}
+        >
+          Home
+        </NavLink>
+      </div>
     </nav>
   );
 }
