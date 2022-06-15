@@ -1,6 +1,6 @@
 /* NOTE: NavLink returns a standard <a> tag! so use the <a> tag for styling this element */
 a {
-  font-size: 25px;
+  font-size: 80%;
   cursor: pointer;
   margin: 0 15px;
   font-weight: bold;
@@ -15,7 +15,22 @@ nav {
   bottom: 0;
   left: 0;
   width: 100%;
-  padding: 8px;
+  padding: 8px 5px 8px 0;
   background-color: #23001e;
   height: 2.6em;
+}
+
+.nav-links {
+  border-right: solid #a4a9ad 1px;
+  display: flex;
+}
+
+.nav-links:nth-child(3) {
+  border: none;
+}
+
+@media only screen and (min-width: 575px) {
+  a {
+    font-size: 25px;
+  }
 }
